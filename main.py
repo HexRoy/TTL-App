@@ -10,7 +10,9 @@ Builder.load_file('main.kv')
 # TODO list of dictionaries, containing the routine
 routine_list = []
 
+
 class ScreenManager(ScreenManager):
+
     # Gets all of the data inputted by the user
     def get_vars(self):
         self.name = self.exercise_name.text
@@ -27,6 +29,7 @@ class ScreenManager(ScreenManager):
         # Calls the next step
         ScreenManager.reset_fields(self)
 
+    # To reset the data fields to get ready for new entries
     def reset_fields(self):
 
         # Resets all of the date fields to empty strings
@@ -38,6 +41,8 @@ class ScreenManager(ScreenManager):
         # Calls the next step
         ScreenManager.add_to_grid(self)
 
+    # TODO: BUG WHEN ADDING A SECOND WORKOUT
+    # To add the data to the gri
     def add_to_grid(self):
 
         # Sets all of the data to what the user inputted
@@ -65,23 +70,23 @@ class ScreenManager(ScreenManager):
             weight_label = Label(text=str(random.randint(80, 120)))
             self.add_routine_grid.add_widget(weight_label)
 
-    # TODO: Bug with adding to a different screen
+    # TODO: add the exercises to the routine list
+    # TODO: let button be clickable for the routine and bring you back
     def save_and_create(self):
         # routine_button = Button(text=self.workout_name.text)
         routine_name = self.workout_name.text
 
-        routine_list.append(routine_name)
+        routine_list.append(({'routine': routine_name, 'last_used': "You have not used this workout routine"}))
 
+        # routine_list.append({'last_used': ""})
         ScreenManager.update_routines(self)
 
     def update_routines(self):
-        for routine in routine_list:
-            routine_button = Button(text=routine)
-            self.routine_grid.add_widget(routine_button)
-
+        for data in routine_list:
+            self.routine_grid.add_widget(Button(text=data["routine"]))
+            last_used = Label(text=data["last_used"])
+            self.routine_grid.add_widget(last_used)
             print("added widget")
-
-
 
 
 class Menu(Screen):

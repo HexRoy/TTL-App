@@ -29,6 +29,7 @@
                     on_press:
                         root.transition.direction = 'left'
                         root.current = "Setting"
+
     Screen:
         name: "Routines"
         BoxLayout:
@@ -60,7 +61,7 @@
                 text: "Your Routines"
 
             BoxLayout:
-                size_hint: 1, 0.01
+                size_hint: 1, 0.1
                 Label:
                     font_size: 15
                     text: "Name"
@@ -68,17 +69,18 @@
                 Label:
                     font_size: 15
                     text: "Last Used"
-            GridLayout:
-                cols: 2
-                id: routine_list
-
-            # TODO this
+            # TODO: add scroll view
             ScrollView:
-                pos_hint:{'center_x': .5, 'center_y': .5}
+                GridLayout:
+                    cols: 2
+                    id: routine_list
+                    row_force_default: True
+                    row_default_height: 35
 
 
 
 
+    # TODO: add timer option
     Screen:
         name: "AddRoutine"
 
@@ -89,7 +91,6 @@
                 spacing: root.width/2
                 size_hint: 1, 1
                 orientation: 'horizontal'
-                #TODO: BUG-If click save, exit add routine, and try to go back, crashes
                 Button:
                     text: "Routines"
                     on_press:
@@ -149,6 +150,7 @@
                 on_press:
                     root.get_vars()
 
+    # TODO: All functionality for settings
     Screen:
         name: "Setting"
 
