@@ -1,5 +1,4 @@
 #:kivy 1.10.1
-
 <Menu>:
     GridLayout:
         rows: 1
@@ -21,6 +20,9 @@
                     root.manager.transition.direction = 'left'
                     root.manager.current = "Setting"
 <Routines>:
+
+    routine_grid: routine_list
+
     BoxLayout:
         orientation: 'vertical'
 
@@ -58,6 +60,9 @@
             Label:
                 font_size: 15
                 text: "Last Used"
+        GridLayout:
+            cols: 2
+            id: routine_list
 
         # TODO this
         ScrollView:
@@ -68,11 +73,12 @@
 
 
 <AddRoutine>:
-
+    workout_name: routine_name
     exercise_name: name
     num_sets: sets
     num_reps: reps
     amt_weight: weight
+    add_routine_grid: workout_grid
 
     BoxLayout:
         orientation: 'vertical'
@@ -81,24 +87,38 @@
             spacing: root.width/2
             size_hint: 1, 1
             orientation: 'horizontal'
-            #TODO: BUG-If text entered in boxes, app crashes when trying to return to AddRoutine after you goto Routines
+            #TODO: BUG-If click save, exit add routine, and try to go back, crashes
             Button:
                 text: "Routines"
                 on_press:
                     root.manager.transition.direction = 'right'
                     root.manager.current = "Routines"
+            # TODO: implement, change to saved, if data added change back to save
             Button:
                 text: "Save"
                 on_press:
-                    root.manager.transition.direction = 'right'
-                    root.manager.current = "Routines"
+                    root.save_and_create()
+                    root.manager.transition.direction = 'left'
+                    root.manager.current = "AddRoutine"
 
         Label:
             text: "New Routine"
             font_size: 30
 
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Label:
+                text: "Enter Routine Name:"
+                font_size: 20
+
+            TextInput:
+                id: routine_name
+
+        #TODO add scroll view
         GridLayout:
-            rows: root.grid_rows
+            id: workout_grid
+            cols: 4
 
         BoxLayout:
             orientation: "horizontal"
@@ -125,7 +145,6 @@
         Button:
             text: "Next"
             on_press:
-                root.grid_rows += 1
                 root.get_vars()
 
 
@@ -157,6 +176,13 @@
             Label:
                 font_size: 15
                 text: "Auto-Increase Wight"
+            Switch:
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                font_size: 15
+                text: "Motivation Quotes"
             Switch:
 
 
