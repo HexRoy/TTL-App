@@ -1,7 +1,7 @@
-### TTL-App
-# App to keep track of your workouts
+# TTL-App
+### App to keep track of your workouts
 
-# Python Version
+#### Python Version
 * 3.6.5
 
 #Use: pip install -r requirements.txt
