@@ -1,9 +1,9 @@
-# from kivy.app import App
-# from kivy.uix.screenmanager import ScreenManager, Screen
-# from kivy.lang import Builder
-# from kivy.uix.label import Label
-# from kivy.uix.button import Button
-# import random
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.lang import Builder
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+import random
 
 Builder.load_file('main.kv')
 
