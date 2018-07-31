@@ -10,25 +10,7 @@ Builder.load_file('main.kv')
 # TODO list of dictionaries, containing the routine
 routine_list = []
 
-class Menu(Screen):
-    pass
-
-
-class Routines(Screen):
-    def update_routines(self):
-        for routine in routine_list:
-            routine_button = Button(text=routine)
-            self.routine_grid.add_widget(routine_button)
-
-            print("added widget")
-
-
-class Setting(Screen):
-    pass
-
-
-class AddRoutine(Screen):
-
+class ScreenManager(ScreenManager):
     # Gets all of the data inputted by the user
     def get_vars(self):
         self.name = self.exercise_name.text
@@ -36,14 +18,14 @@ class AddRoutine(Screen):
         self.reps = self.num_reps.text
         self.weight = self.amt_weight.text
 
-        #TODO remove prints, for testing
+        # TODO remove prints, for testing
         print(self.name)
         print(self.sets)
         print(self.reps)
         print(self.weight)
 
         # Calls the next step
-        AddRoutine.reset_fields(self)
+        ScreenManager.reset_fields(self)
 
     def reset_fields(self):
 
@@ -54,7 +36,7 @@ class AddRoutine(Screen):
         self.amt_weight.text = ""
 
         # Calls the next step
-        AddRoutine.add_to_grid(self)
+        ScreenManager.add_to_grid(self)
 
     def add_to_grid(self):
 
@@ -90,7 +72,32 @@ class AddRoutine(Screen):
 
         routine_list.append(routine_name)
 
-        Routines.update_routines(self)
+        ScreenManager.update_routines(self)
+
+    def update_routines(self):
+        for routine in routine_list:
+            routine_button = Button(text=routine)
+            self.routine_grid.add_widget(routine_button)
+
+            print("added widget")
+
+
+
+
+class Menu(Screen):
+    pass
+
+
+class Routines(Screen):
+    pass
+
+
+class Setting(Screen):
+    pass
+
+
+class AddRoutine(Screen):
+    pass
 
 
 

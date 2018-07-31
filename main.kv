@@ -1,201 +1,203 @@
 #:kivy 1.10.1
-<Menu>:
-    GridLayout:
-        rows: 1
-        Label:
-            font_size: 150
-            center_x: root.width / 4
-            top: root.top/2
-            text: "T\nT\nL"
-        BoxLayout:
-            orientation: "vertical"
-            Button:
-                text: "Routines"
-                on_press:
-                    root.manager.transition.direction = 'left'
-                    root.manager.current = "Routines"
-            Button:
-                text: "Settings"
-                on_press:
-                    root.manager.transition.direction = 'left'
-                    root.manager.current = "Setting"
-<Routines>:
+<ScreenManager>:
 
-    routine_grid: routine_list
-
-    BoxLayout:
-        orientation: 'vertical'
-
-        BoxLayout:
-            size_hint: 1, 0.1
-            orientation: 'horizontal'
-            spacing: root.width/3.25
-
-            Button:
-                text: "Menu"
-                on_press:
-                    root.manager.transition.direction = 'right'
-                    root.manager.current = "Menu"
-
-            Button:
-                text: "Add Routine"
-                on_press:
-                    root.manager.transition.direction = 'left'
-                    root.manager.current = "AddRoutine"
-
-            Button:
-                text: "Delete Routine"
-
-        Label:
-            size_hint: 1, 0.2
-            font_size: 30
-            text: "Your Routines"
-
-        BoxLayout:
-            size_hint: 1, 0.01
-            Label:
-                font_size: 15
-                text: "Name"
-
-            Label:
-                font_size: 15
-                text: "Last Used"
-        GridLayout:
-            cols: 2
-            id: routine_list
-
-        # TODO this
-        ScrollView:
-            pos_hint:{'center_x': .5, 'center_y': .5}
-
-
-
-
-
-<AddRoutine>:
     workout_name: routine_name
     exercise_name: name
     num_sets: sets
     num_reps: reps
     amt_weight: weight
     add_routine_grid: workout_grid
-
-    BoxLayout:
-        orientation: 'vertical'
-
-        BoxLayout:
-            spacing: root.width/2
-            size_hint: 1, 1
-            orientation: 'horizontal'
-            #TODO: BUG-If click save, exit add routine, and try to go back, crashes
-            Button:
-                text: "Routines"
-                on_press:
-                    root.manager.transition.direction = 'right'
-                    root.manager.current = "Routines"
-            # TODO: implement, change to saved, if data added change back to save
-            Button:
-                text: "Save"
-                on_press:
-                    root.save_and_create()
-                    root.manager.transition.direction = 'left'
-                    root.manager.current = "AddRoutine"
-
-        Label:
-            text: "New Routine"
-            font_size: 30
-
-        BoxLayout:
-            orientation: 'horizontal'
-
-            Label:
-                text: "Enter Routine Name:"
-                font_size: 20
-
-            TextInput:
-                id: routine_name
-
-        #TODO add scroll view
+    routine_grid: routine_list
+    Screen:
+        name: "Menu"
         GridLayout:
-            id: workout_grid
-            cols: 4
+            rows: 1
+            Label:
+                font_size: 150
+                center_x: root.width / 4
+                top: root.top/2
+                text: "T\nT\nL"
+            BoxLayout:
+                orientation: "vertical"
+                Button:
+                    text: "Routines"
+                    on_press:
+                        root.transition.direction = 'left'
+                        root.current = "Routines"
+                Button:
+                    text: "Settings"
+                    on_press:
+                        root.transition.direction = 'left'
+                        root.current = "Setting"
+    Screen:
+        name: "Routines"
+        BoxLayout:
+            orientation: 'vertical'
+
+            BoxLayout:
+                size_hint: 1, 0.1
+                orientation: 'horizontal'
+                spacing: root.width/3.25
+
+                Button:
+                    text: "Menu"
+                    on_press:
+                        root.transition.direction = 'right'
+                        root.current = "Menu"
+
+                Button:
+                    text: "Add Routine"
+                    on_press:
+                        root.transition.direction = 'left'
+                        root.current = "AddRoutine"
+
+                Button:
+                    text: "Delete Routine"
+
+            Label:
+                size_hint: 1, 0.2
+                font_size: 30
+                text: "Your Routines"
+
+            BoxLayout:
+                size_hint: 1, 0.01
+                Label:
+                    font_size: 15
+                    text: "Name"
+
+                Label:
+                    font_size: 15
+                    text: "Last Used"
+            GridLayout:
+                cols: 2
+                id: routine_list
+
+            # TODO this
+            ScrollView:
+                pos_hint:{'center_x': .5, 'center_y': .5}
+
+
+
+
+    Screen:
+        name: "AddRoutine"
 
         BoxLayout:
-            orientation: "horizontal"
+            orientation: 'vertical'
+
+            BoxLayout:
+                spacing: root.width/2
+                size_hint: 1, 1
+                orientation: 'horizontal'
+                #TODO: BUG-If click save, exit add routine, and try to go back, crashes
+                Button:
+                    text: "Routines"
+                    on_press:
+                        root.transition.direction = 'right'
+                        root.current = "Routines"
+                # TODO: implement, change to saved, if data added change back to save
+                Button:
+                    text: "Save"
+                    on_press:
+                        root.save_and_create()
+                        root.transition.direction = 'left'
+                        root.current = "AddRoutine"
+
             Label:
-                text: "Name"
-            Label:
-                text: "Sets"
-            Label:
-                text: "Reps"
-            Label:
-                text: "Weight"
+                text: "New Routine"
+                font_size: 30
 
-        BoxLayout:
-            orientation: "horizontal"
-            TextInput:
-                id: name
-            TextInput:
-                id: sets
-            TextInput:
-                id: reps
-            TextInput:
-                id: weight
-
-        Button:
-            text: "Next"
-            on_press:
-                root.get_vars()
-
-
-
-<Setting>:
-    BoxLayout:
-        orientation: 'vertical'
-
-        Button:
-            size_hint: 1, 0.3
-            text: "Menu"
-            on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current = "Menu"
-
-        Label:
-            font_size: 30
-            text: "Settings"
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                font_size: 15
-                text: "Notifications"
-            Switch:
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                font_size: 15
-                text: "Auto-Increase Wight"
-            Switch:
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                font_size: 15
-                text: "Motivation Quotes"
-            Switch:
-
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                font_size: 15
-                text: "Color Scheme"
             BoxLayout:
                 orientation: 'horizontal'
-                Button:
-                    text: "Light"
-                Button:
-                    text: "Dark"
+
+                Label:
+                    text: "Enter Routine Name:"
+                    font_size: 20
+
+                TextInput:
+                    id: routine_name
+
+            #TODO add scroll view
+            GridLayout:
+                id: workout_grid
+                cols: 4
+
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    text: "Name"
+                Label:
+                    text: "Sets"
+                Label:
+                    text: "Reps"
+                Label:
+                    text: "Weight"
+
+            BoxLayout:
+                orientation: "horizontal"
+                TextInput:
+                    id: name
+                TextInput:
+                    id: sets
+                TextInput:
+                    id: reps
+                TextInput:
+                    id: weight
+
+            Button:
+                text: "Next"
+                on_press:
+                    root.get_vars()
+
+    Screen:
+        name: "Setting"
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Button:
+                size_hint: 1, 0.3
+                text: "Menu"
+                on_press:
+                    root.transition.direction = 'right'
+                    root.current = "Menu"
+
+            Label:
+                font_size: 30
+                text: "Settings"
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    font_size: 15
+                    text: "Notifications"
+                Switch:
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    font_size: 15
+                    text: "Auto-Increase Wight"
+                Switch:
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    font_size: 15
+                    text: "Motivation Quotes"
+                Switch:
+
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    font_size: 15
+                    text: "Color Scheme"
+                BoxLayout:
+                    orientation: 'horizontal'
+                    Button:
+                        text: "Light"
+                    Button:
+                        text: "Dark"
 
 
