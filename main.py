@@ -71,7 +71,7 @@ class ScreenManager(ScreenManager):
             self.add_routine_grid.add_widget(weight_label)
 
     # TODO: add the exercises to the routine list
-    # TODO: let button be clickable for the routine and bring you back
+    # TODO: let button be clickable for the routine and bring you back :)
     def save_and_create(self):
         # routine_button = Button(text=self.workout_name.text)
         routine_name = self.workout_name.text
