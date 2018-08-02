@@ -1,4 +1,36 @@
 #:kivy 1.10.1
+
+# TODO: BUG WHEN ADDING A SECOND WORKOUT, adds the first again + the second
+
+# TODO: core data for storing data
+
+# TODO: Routines
+#----------------
+# TODO: add scroll view to grid layout
+# TODO: let each routine be click-able and bring you to a popup (Maybe)
+
+
+# TODO: AddRoutine
+#------------------
+# TODO: If no name, don't allow
+# TODO: add timer option
+# TODO: change to save button to saved when clicked, if data added change back to save
+# TODO: add scroll view to grid layout
+# TODO: make a text file for each of the of the routines when created?
+
+
+# TODO: Settings
+#----------------
+# TODO: All functionality for buttons and switches
+
+
+# TODO: DisplayRoutine
+#----------------------
+# TODO: opens the text file and displays all the data
+# TODO: implement a way to use the routine and add data.
+# TODO: Add the quotes if you fail
+# TODO: once clicked on routine change the last used to the current date
+
 <ScreenManager>:
 
     workout_name: routine_name
@@ -69,7 +101,6 @@
                 Label:
                     font_size: 15
                     text: "Last Used"
-            # TODO: add scroll view
             ScrollView:
                 GridLayout:
                     cols: 2
@@ -80,7 +111,7 @@
 
 
 
-    # TODO: add timer option
+
     Screen:
         name: "AddRoutine"
 
@@ -96,7 +127,6 @@
                     on_press:
                         root.transition.direction = 'right'
                         root.current = "Routines"
-                # TODO: implement, change to saved, if data added change back to save
                 Button:
                     text: "Save"
                     on_press:
@@ -117,8 +147,6 @@
 
                 TextInput:
                     id: routine_name
-
-            #TODO add scroll view
             GridLayout:
                 id: workout_grid
                 cols: 4
@@ -150,7 +178,6 @@
                 on_press:
                     root.get_vars()
 
-    # TODO: All functionality for settings
     Screen:
         name: "Setting"
 

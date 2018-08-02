@@ -41,7 +41,6 @@ class ScreenManager(ScreenManager):
         # Calls the next step
         ScreenManager.add_to_grid(self)
 
-    # TODO: BUG WHEN ADDING A SECOND WORKOUT
     # To add the data to the gri
     def add_to_grid(self):
 
@@ -59,8 +58,8 @@ class ScreenManager(ScreenManager):
             self.add_routine_grid.add_widget(weight_label)
 
         # TODO remove(TESTING ONLY)
-        liftlist = ['curl', 'pushup', 'sit up', 'bench']
-        for lifts in liftlist:
+        lift_list = ['curl', 'push up', 'sit up', 'bench']
+        for lifts in lift_list:
             name_label = Label(text=lifts)
             self.add_routine_grid.add_widget(name_label)
             sets_label = Label(text=str(random.randint(0, 4)))
@@ -70,8 +69,6 @@ class ScreenManager(ScreenManager):
             weight_label = Label(text=str(random.randint(80, 120)))
             self.add_routine_grid.add_widget(weight_label)
 
-    # TODO: add the exercises to the routine list
-    # TODO: let button be clickable for the routine and bring you back :)
     def save_and_create(self):
         # routine_button = Button(text=self.workout_name.text)
         routine_name = self.workout_name.text
@@ -88,6 +85,11 @@ class ScreenManager(ScreenManager):
             self.routine_grid.add_widget(last_used)
             print("added widget")
 
+    def quotes(self):
+        quote_list = ["What do you mean", "Not a problem", "She's not fat", "Why are you like this"]
+        i = random.randint(0, len(quote_list) - 1)
+        print(quote_list[i])
+
 
 class Menu(Screen):
     pass
@@ -103,9 +105,6 @@ class Setting(Screen):
 
 class AddRoutine(Screen):
     pass
-
-
-
 
 
 # Create the screen manager
