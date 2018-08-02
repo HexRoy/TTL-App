@@ -12,9 +12,8 @@
 
 # TODO: AddRoutine
 #------------------
-# TODO: If no name, don't allow
 # TODO: add timer option
-# TODO: change to save button to saved when clicked, if data added change back to save
+# TODO: if data added change back to save
 # TODO: add scroll view to grid layout
 # TODO: make a text file for each of the of the routines when created?
 
@@ -40,6 +39,8 @@
     amt_weight: weight
     add_routine_grid: workout_grid
     routine_grid: routine_list
+    save_button: save
+
     Screen:
         name: "Menu"
         GridLayout:
@@ -114,7 +115,6 @@
 
     Screen:
         name: "AddRoutine"
-
         BoxLayout:
             orientation: 'vertical'
 
@@ -128,6 +128,7 @@
                         root.transition.direction = 'right'
                         root.current = "Routines"
                 Button:
+                    id: save
                     text: "Save"
                     on_press:
                         root.save_and_create()

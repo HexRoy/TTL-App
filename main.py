@@ -73,10 +73,14 @@ class ScreenManager(ScreenManager):
         # routine_button = Button(text=self.workout_name.text)
         routine_name = self.workout_name.text
 
-        routine_list.append(({'routine': routine_name, 'last_used': "You have not used this workout routine"}))
+        if routine_name != "":
+            routine_list.append(({'routine': routine_name, 'last_used': "You have not used this workout routine"}))
 
-        # routine_list.append({'last_used': ""})
-        ScreenManager.update_routines(self)
+            # routine_list.append({'last_used': ""})
+            ScreenManager.update_routines(self)
+
+            # Change button to 'saved'
+            self.save_button.text = str('Saved')
 
     def update_routines(self):
         for data in routine_list:
