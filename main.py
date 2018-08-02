@@ -52,27 +52,24 @@ class ScreenManager(ScreenManager):
 
         # Checks to make sure there is a name and numbers of sets as input
         if self.name and self.sets != "":
+
+            # Something new was add, changed back to save
+            self.save_button.text = str('Save')
+
+            # Increase the number of rows to allow space for new input
+            self.add_routine_grid.rows += 1
+
+            # Adds the input to the grid
             self.add_routine_grid.add_widget(name_label)
             self.add_routine_grid.add_widget(sets_label)
             self.add_routine_grid.add_widget(reps_label)
             self.add_routine_grid.add_widget(weight_label)
 
-        # TODO remove(TESTING ONLY)
-        lift_list = ['curl', 'push up', 'sit up', 'bench']
-        for lifts in lift_list:
-            name_label = Label(text=lifts)
-            self.add_routine_grid.add_widget(name_label)
-            sets_label = Label(text=str(random.randint(0, 4)))
-            self.add_routine_grid.add_widget(sets_label)
-            reps_label = Label(text=str(random.randint(8, 12)))
-            self.add_routine_grid.add_widget(reps_label)
-            weight_label = Label(text=str(random.randint(80, 120)))
-            self.add_routine_grid.add_widget(weight_label)
+
 
     def save_and_create(self):
         # routine_button = Button(text=self.workout_name.text)
         routine_name = self.workout_name.text
-
         if routine_name != "":
             routine_list.append(({'routine': routine_name, 'last_used': "You have not used this workout routine"}))
 

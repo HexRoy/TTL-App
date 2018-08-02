@@ -1,6 +1,6 @@
 #:kivy 1.10.1
 
-# TODO: BUG WHEN ADDING A SECOND WORKOUT, adds the first again + the second
+# FIXME: BUG WHEN ADDING A SECOND WORKOUT, adds the first again + the second
 
 # TODO: core data for storing data
 
@@ -8,14 +8,16 @@
 #----------------
 # TODO: add scroll view to grid layout
 # TODO: let each routine be click-able and bring you to a popup (Maybe)
+# TODO: implement delete routine, and possibly swipe to delete
 
 
 # TODO: AddRoutine
 #------------------
 # TODO: add timer option
-# TODO: if data added change back to save
 # TODO: add scroll view to grid layout
+# https://stackoverflow.com/questions/39170283/how-to-make-a-portion-of-a-kivy-screen-scrollable
 # TODO: make a text file for each of the of the routines when created?
+# TODO: Actually save the data to a file/database
 
 
 # TODO: Settings
@@ -151,7 +153,7 @@
             GridLayout:
                 id: workout_grid
                 cols: 4
-
+                rows: 0
             BoxLayout:
                 orientation: "horizontal"
                 Label:
