@@ -3,11 +3,11 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.button import Button
-import random
+from csv import DictWriter
+import os
 
 Builder.load_file('main.kv')
 
-# TODO list of dictionaries, containing the routine
 routine_list = []
 
 
@@ -19,12 +19,6 @@ class ScreenManager(ScreenManager):
         self.sets = self.num_sets.text
         self.reps = self.num_reps.text
         self.weight = self.amt_weight.text
-
-        # TODO remove prints, for testing
-        print(self.name)
-        print(self.sets)
-        print(self.reps)
-        print(self.weight)
 
         # Calls the next step
         ScreenManager.reset_fields(self)
@@ -68,10 +62,46 @@ class ScreenManager(ScreenManager):
 
 
     def save_and_create(self):
-        # routine_button = Button(text=self.workout_name.text)
+
         routine_name = self.workout_name.text
+        # Adds the routine name and string to the list
+        routine_list.append(({'routine': routine_name, 'last_used': "You have not used this workout routine"}))
+
         if routine_name != "":
-            routine_list.append(({'routine': routine_name, 'last_used': "You have not used this workout routine"}))
+
+            # FIXME
+            file_name = routine_name + '.csv'
+            for file in os.listdir("routines/"):
+                if file.endswith(".csv"):
+                    if file_name == file:
+                        print("You already have a routine named:", file_name)
+                        return
+
+            my_file = open("routines/" + file_name, 'w')
+            my_file.close()
+            for file in os.listdir("routines/"):
+                print("file name: ", file)
+
+            # Dict headers to point to the data in the dict
+            fieldnames = ['routine_name', 'exercise_name' 'sets', 'reps', 'weight', 'last_used']
+
+            # Uses dictWriter to create a csv file with the data in its correct column
+            #writer = DictWriter(my_file, fieldnames=fieldnames, extrasaction='ignore', delimiter=',',
+            #                    lineterminator='\n')
+
+            # Write titles
+            #writer.writer.writerow(['Routine Name', 'Exercise Name', 'Sets', 'Reps', 'Weight', 'Last Used'])
+
+            # loop through the nested loops
+            #for data_items in routine_list:
+            #    writer.writerows(data_items)  # Writes each line of data
+            #    writer.writer.writerow([])  # blank row (separate data)
+            my_file.close()  # Closes the my_file
+
+
+
+
+
 
             # routine_list.append({'last_used': ""})
             ScreenManager.update_routines(self)

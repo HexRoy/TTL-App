@@ -15,10 +15,10 @@
 #------------------
 # TODO: add timer option
 # TODO: add scroll view to grid layout
-# https://stackoverflow.com/questions/39170283/how-to-make-a-portion-of-a-kivy-screen-scrollable
 # TODO: make a text file for each of the of the routines when created?
 # TODO: Actually save the data to a file/database
-
+# TODO: all buttons are same size
+# TODO: Do not allow ' . ' in the filename.
 
 # TODO: Settings
 #----------------
@@ -122,8 +122,9 @@
 
             BoxLayout:
                 spacing: root.width/2
-                size_hint: 1, 1
+                size_hint: 1, .45
                 orientation: 'horizontal'
+
                 Button:
                     text: "Routines"
                     on_press:
