@@ -6,7 +6,7 @@
 #----------------
 # TODO: add scroll view to grid layout
 # TODO: let each routine be click-able and bring you to a popup (Maybe)
-# TODO: implement delete routine, and possibly swipe to delete
+# TODO: implement delete routine, and possibly swipe to delete     https://github.com/kivy-garden/garden.swipetodelete
 
 
 # TODO: AddRoutine
@@ -15,8 +15,7 @@
 # TODO: add scroll view to grid layout
 # TODO: Create database instead of CSV files
 # TODO: all buttons are same size
-# TODO: Only allow number input for set/rep/weight
-# TODO: when save is clicked, and nothing is there to be saved. do not change screens
+
 
 # TODO: Settings
 #----------------
@@ -140,8 +139,8 @@
                     text: "Save"
                     on_press:
                         root.save_and_create()
-                        root.transition.direction = 'right'
-                        root.current = "Routines"
+                        if root.is_entries(): root.transition.direction = 'right'
+                        if root.is_entries(): root.current = "Routines"
 
             Label:
                 text: "New Routine"
@@ -177,10 +176,13 @@
                     id: name
                 TextInput:
                     id: sets
+                    input_filter: 'int'
                 TextInput:
                     id: reps
+                    input_filter: 'int'
                 TextInput:
                     id: weight
+                    input_filter: 'int'
 
             Button:
                 text: "Next"

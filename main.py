@@ -138,6 +138,11 @@ class ScreenManager(ScreenManager):
         routine_name_list.clear()                   # Empties the routine list to prepare for new data
         workout_list.clear()                        # Empties the workout list to prepare for new data
 
+    def is_entries(self):
+        if self.workout_name.text != "":
+            if workout_list != []:
+                return True
+        return False
     # =================================================================================================================
     # Functions for settings
     # =================================================================================================================
