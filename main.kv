@@ -1,7 +1,5 @@
 #:kivy 1.10.1
 
-# FIXME: BUG WHEN ADDING A SECOND WORKOUT, adds the first again + the second
-
 # TODO: core data for storing data
 
 # TODO: Routines
@@ -15,10 +13,10 @@
 #------------------
 # TODO: add timer option
 # TODO: add scroll view to grid layout
-# TODO: make a text file for each of the of the routines when created?
-# TODO: Actually save the data to a file/database
+# TODO: Create database instead of CSV files
 # TODO: all buttons are same size
-# TODO: Do not allow ' . ' in the filename.
+# TODO: Only allow number input for set/rep/weight
+# TODO: clear the grid layout when you leave the add routine page
 
 # TODO: Settings
 #----------------
@@ -132,8 +130,10 @@
                 Button:
                     text: "Routines"
                     on_press:
+                        root.reset_lists()
                         root.transition.direction = 'right'
                         root.current = "Routines"
+
                 Button:
                     id: save
                     text: "Save"

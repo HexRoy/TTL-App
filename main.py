@@ -9,8 +9,8 @@ import os
 
 Builder.load_file('main.kv')
 
-routine_list = []
-
+routine_name_list = []
+workout_list = []
 
 class ScreenManager(ScreenManager):
 
@@ -22,7 +22,7 @@ class ScreenManager(ScreenManager):
         self.weight = self.amt_weight.text
 
         # Calls the next step
-        ScreenManager.reset_fields(self)
+        ScreenManager.add_to_grid(self)
 
     # To reset the data fields to get ready for new entries
     def reset_fields(self):
@@ -32,9 +32,6 @@ class ScreenManager(ScreenManager):
         self.num_sets.text = ""
         self.num_reps.text = ""
         self.amt_weight.text = ""
-
-        # Calls the next step
-        ScreenManager.add_to_grid(self)
 
     # To add the data to the gri
     def add_to_grid(self):
@@ -60,62 +57,69 @@ class ScreenManager(ScreenManager):
             self.add_routine_grid.add_widget(reps_label)
             self.add_routine_grid.add_widget(weight_label)
 
+            name_text = self.exercise_name.text
+            sets_text = self.num_sets.text
+            reps_text = self.num_reps.text
+            weight_text = self.amt_weight.text
 
+            # Creates the data item for the excel sheet
+            single_exercise = {'name': name_text, 'sets': sets_text, 'reps': reps_text, 'weight': weight_text}
+
+            # Adds the data item to the list
+            workout_list.append(single_exercise)
+
+            # Calls the next step
+            ScreenManager.reset_fields(self)
 
     def save_and_create(self):
 
+        # Gets the name of the routine to be used as the button
         routine_name = self.workout_name.text
+
         # Adds the routine name and string to the list
-        routine_list.append(({'routine': routine_name, 'last_used': "You have not used this workout routine"}))
+        routine_name_list.append({'routine': routine_name, 'last_used': "You have not used this workout routine"})
 
+        # Checks to make sure the routine name is not empty
         if routine_name != "":
-
-            # FIXME
-            file_name = routine_name + '.csv'
-            for file in os.listdir("routines/"):
-                if file.endswith(".csv"):
-                    if file_name == file:
-                        print("You already have a routine named:", file_name)
+            file_name = routine_name + '.csv'                                   # Creates the file name (as .csv file)
+            for file in os.listdir("routines/"):                                # Looks through all saved routines
+                if file.endswith(".csv"):                                       # Makes sure its a .csv file
+                    if file_name == file:                                       # If there are matching file names
+                        print("You already have a routine named:", file_name)   # Tell the user they need a new name
                         return
 
-            my_file = open("routines/" + file_name, 'w')
-            my_file.close()
-            for file in os.listdir("routines/"):
-                print("file name: ", file)
+            my_file = open("routines/" + file_name, 'w')        # Creates the file to store the routine
 
             # Dict headers to point to the data in the dict
-            fieldnames = ['routine_name', 'exercise_name' 'sets', 'reps', 'weight', 'last_used']
+            fieldnames = ['routine', 'last_used', 'name', 'sets', 'reps', 'weight']
 
             # Uses dictWriter to create a csv file with the data in its correct column
-            #writer = DictWriter(my_file, fieldnames=fieldnames, extrasaction='ignore', delimiter=',',
-            #                    lineterminator='\n')
+            writer = DictWriter(my_file, fieldnames=fieldnames, extrasaction='ignore', delimiter=',',
+                                lineterminator='\n')
 
             # Write titles
-            #writer.writer.writerow(['Routine Name', 'Exercise Name', 'Sets', 'Reps', 'Weight', 'Last Used'])
+            writer.writer.writerow(['Routine Name', 'Last Used', 'Exercise Name', 'Sets', 'Reps', 'Weight'])
+            writer.writerows(routine_name_list)     # First writes the routine name and last used date
+            writer.writerows(workout_list)          # Then writes each workout
+            my_file.close()                         # Closes file
 
-            # loop through the nested loops
-            #for data_items in routine_list:
-            #    writer.writerows(data_items)  # Writes each line of data
-            #    writer.writer.writerow([])  # blank row (separate data)
-            my_file.close()  # Closes the my_file
-
-
-
-
-
-
-            # routine_list.append({'last_used': ""})
+            # Updates the Routines page with the new routine button
             ScreenManager.update_routines(self)
 
             # Change button to 'saved'
             self.save_button.text = str('Saved')
 
+
     def update_routines(self):
-        for data in routine_list:
-            self.routine_grid.add_widget(Button(text=data["routine"]))
-            last_used = Label(text=data["last_used"])
-            self.routine_grid.add_widget(last_used)
-            print("added widget")
+        self.routine_grid.add_widget(Button(text=self.workout_name.text))
+        last_used = Label(text="You have not used this workout routine")
+        self.routine_grid.add_widget(last_used)
+        print("added widget")
+
+    def reset_lists(self):
+        routine_name_list.clear()       # Empties the routine list to prepare for new data
+        workout_list.clear()            # Empties the workout list to prepare for new data
+
 
     def quotes(self):
         quote_list = ["What do you mean", "Not a problem", "She's not fat", "Why are you like this"]
