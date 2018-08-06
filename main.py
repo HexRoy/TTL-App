@@ -34,16 +34,6 @@ class ScreenManager(ScreenManager):
     # Functions for AddRoutine
     # =================================================================================================================
 
-    # Gets all of the data inputted by the user
-    def get_vars(self):
-        self.name = self.exercise_name.text
-        self.sets = self.num_sets.text
-        self.reps = self.num_reps.text
-        self.weight = self.amt_weight.text
-
-        # Calls the next step
-        ScreenManager.add_to_grid(self)
-
     # To reset the data fields to get ready for new entries
     def reset_fields(self):
 
@@ -57,13 +47,13 @@ class ScreenManager(ScreenManager):
     def add_to_grid(self):
 
         # Sets all of the data to what the user inputted
-        name_label = Label(text=self.name)
-        sets_label = Label(text=self.sets)
-        reps_label = Label(text=self.reps)
-        weight_label = Label(text=self.weight)
+        name_label = Label(text=self.exercise_name.text)
+        sets_label = Label(text=self.num_sets.text)
+        reps_label = Label(text=self.num_reps.text)
+        weight_label = Label(text=self.amt_weight.text)
 
         # Checks to make sure there is a name and numbers of sets as input
-        if self.name and self.sets != "":
+        if self.exercise_name.text and self.num_sets.text != "":
 
             # Something new was add, changed back to save
             self.save_button.text = str('Save')
