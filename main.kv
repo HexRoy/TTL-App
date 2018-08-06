@@ -11,15 +11,13 @@
 
 # TODO: AddRoutine
 #------------------
-# TODO: RESET_LIST()
-# TODO:    clear the grid layout when you leave the add routine page
 # TODO: add timer option
 # TODO: add scroll view to grid layout
 # TODO: Create database instead of CSV files
 # TODO: all buttons are same size
 # TODO: Only allow number input for set/rep/weight
 # TODO: add a 'clear' button to reset everything
-
+# TODO: when save is clicked, and nothing is there to be saved. do not change screens
 
 # TODO: Settings
 #----------------
@@ -133,7 +131,6 @@
                 Button:
                     text: "Routines"
                     on_press:
-                        root.reset_lists()
                         root.transition.direction = 'right'
                         root.current = "Routines"
 
@@ -142,8 +139,8 @@
                     text: "Save"
                     on_press:
                         root.save_and_create()
-                        root.transition.direction = 'left'
-                        root.current = "AddRoutine"
+                        root.transition.direction = 'right'
+                        root.current = "Routines"
 
             Label:
                 text: "New Routine"
