@@ -16,7 +16,6 @@
 # TODO: Create database instead of CSV files
 # TODO: all buttons are same size
 # TODO: Only allow number input for set/rep/weight
-# TODO: add a 'clear' button to reset everything
 # TODO: when save is clicked, and nothing is there to be saved. do not change screens
 
 # TODO: Settings
@@ -115,24 +114,26 @@
                     row_default_height: 35
 
 
-
-
-
     Screen:
         name: "AddRoutine"
         BoxLayout:
             orientation: 'vertical'
 
             BoxLayout:
-                spacing: root.width/2
                 size_hint: 1, .45
                 orientation: 'horizontal'
+                spacing: root.width/3.25
 
                 Button:
                     text: "Routines"
                     on_press:
                         root.transition.direction = 'right'
                         root.current = "Routines"
+
+                Button:
+                    text: "Clear All"
+                    on_press:
+                        root.clear_all()
 
                 Button:
                     id: save

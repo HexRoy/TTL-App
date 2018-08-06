@@ -127,6 +127,17 @@ class ScreenManager(ScreenManager):
         last_used = Label(text="You have not used this workout routine")    # Creates the label with the last time used
         self.routine_grid.add_widget(last_used)                             # Adds the label to the Routines page
 
+    def clear_all(self):
+        self.add_routine_grid.clear_widgets()       # Clears out the grid layout
+        self.workout_name.text = ""                 # Clears out the routine name text box
+        self.exercise_name.text = ""                # Clears out the exercise name text box
+        self.num_sets.text = ""                     # Clears out the sets text box
+        self.num_reps.text = ""                     # Clears out the reps text box
+        self.amt_weight.text = ""                   # Clears out the weight text box
+        self.save_button.text = str('Save')         # Changes the 'saved' button back to save
+        routine_name_list.clear()                   # Empties the routine list to prepare for new data
+        workout_list.clear()                        # Empties the workout list to prepare for new data
+
     # =================================================================================================================
     # Functions for settings
     # =================================================================================================================
