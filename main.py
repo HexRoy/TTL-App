@@ -14,6 +14,19 @@ workout_list = []
 
 class ScreenManager(ScreenManager):
 
+    # =================================================================================================================
+    # Functions for Routines
+    # =================================================================================================================
+
+    # to clear all previous entries in Add Routines
+    def reset_add_routine(self):
+        if self.save_button.text == 'Saved':            # Check to see if you saved the workout
+            self.add_routine_grid.clear_widgets()       # Clears out the grid layout
+            self.save_button.text = str('Save')         # Changes the 'saved' button back to save
+    # =================================================================================================================
+    # Functions for AddRoutine
+    # =================================================================================================================
+
     # Gets all of the data inputted by the user
     def get_vars(self):
         self.name = self.exercise_name.text
@@ -52,11 +65,12 @@ class ScreenManager(ScreenManager):
             self.add_routine_grid.rows += 1
 
             # Adds the input to the grid
-            self.add_routine_grid.add_widget(name_label)
-            self.add_routine_grid.add_widget(sets_label)
-            self.add_routine_grid.add_widget(reps_label)
-            self.add_routine_grid.add_widget(weight_label)
+            self.add_routine_grid.add_widget(name_label)        # Adds the name to the grid
+            self.add_routine_grid.add_widget(sets_label)        # Adds the sets to the grid
+            self.add_routine_grid.add_widget(reps_label)        # Adds the reps to the grid
+            self.add_routine_grid.add_widget(weight_label)      # Adds the weight to the grid
 
+            # Creates variables to store routine data
             name_text = self.exercise_name.text
             sets_text = self.num_sets.text
             reps_text = self.num_reps.text
@@ -109,24 +123,37 @@ class ScreenManager(ScreenManager):
             # Change button to 'saved'
             self.save_button.text = str('Saved')
 
-
+    # Adds the button and 'last used' to the Routines page
     def update_routines(self):
-        self.routine_grid.add_widget(Button(text=self.workout_name.text))
-        last_used = Label(text="You have not used this workout routine")
-        self.routine_grid.add_widget(last_used)
-        print("added widget")
+        self.routine_grid.add_widget(Button(text=self.workout_name.text))   # Creates/adds the button to Routines page
+        last_used = Label(text="You have not used this workout routine")    # Creates the label with the last time used
+        self.routine_grid.add_widget(last_used)                             # Adds the label to the Routines page
 
+    # To reset the lists containing the data every time you leave the Add Routine page
     def reset_lists(self):
         routine_name_list.clear()       # Empties the routine list to prepare for new data
         workout_list.clear()            # Empties the workout list to prepare for new data
 
+    # =================================================================================================================
+    # Functions for settings
+    # =================================================================================================================
 
+    # To display notifications on your device
+    def notifications(self):
+        pass
+
+    # To auto increase the weight after completing the sets/reps goal
+    def auto_increase_weight(self):
+        pass
+
+    # To display quotes when you do not reach your sets/reps goal
     def quotes(self):
         quote_list = ["What do you mean", "Not a problem", "She's not fat", "Why are you like this"]
         i = random.randint(0, len(quote_list) - 1)
         print(quote_list[i])
 
     # FIXME
+    # To change colors of app between dark and light
     def color_mode(self):
         if self.dark_light.text == "Dark":
             self.change_color = (1.0, 0.0, 0.0, 1.0)

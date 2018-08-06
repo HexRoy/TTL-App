@@ -11,12 +11,15 @@
 
 # TODO: AddRoutine
 #------------------
+# TODO: RESET_LIST()
+# TODO:    clear the grid layout when you leave the add routine page
 # TODO: add timer option
 # TODO: add scroll view to grid layout
 # TODO: Create database instead of CSV files
 # TODO: all buttons are same size
 # TODO: Only allow number input for set/rep/weight
-# TODO: clear the grid layout when you leave the add routine page
+# TODO: add a 'clear' button to reset everything
+
 
 # TODO: Settings
 #----------------
@@ -41,7 +44,7 @@
     routine_grid: routine_list
     save_button: save
 
-    change_color: addroutineback
+
     dark_light: button
 
     Screen:
@@ -85,6 +88,7 @@
                 Button:
                     text: "Add Routine"
                     on_press:
+                        root.reset_add_routine()
                         root.transition.direction = 'left'
                         root.current = "AddRoutine"
 
@@ -118,7 +122,6 @@
 
     Screen:
         name: "AddRoutine"
-        id: addroutineback
         BoxLayout:
             orientation: 'vertical'
 
