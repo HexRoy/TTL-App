@@ -43,6 +43,9 @@
     routine_grid: routine_list
     save_button: save
 
+    change_color: addroutineback
+    dark_light: button
+
     Screen:
         name: "Menu"
         GridLayout:
@@ -117,6 +120,7 @@
 
     Screen:
         name: "AddRoutine"
+        id: addroutineback
         BoxLayout:
             orientation: 'vertical'
 
@@ -229,8 +233,14 @@
                 BoxLayout:
                     orientation: 'horizontal'
                     Button:
+                        id: button
                         text: "Light"
+                        on_press:
+                            color: (222,222,222,222)
+                            background_color: (1.0, 0.0, 0.0, 1.0)
                     Button:
+                        id: button
                         text: "Dark"
-
+                        on_press:
+                            self.background_color:(222,222,222,222)
 

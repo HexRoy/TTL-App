@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+import random
 from csv import DictWriter
 import os
 
@@ -120,6 +121,14 @@ class ScreenManager(ScreenManager):
         quote_list = ["What do you mean", "Not a problem", "She's not fat", "Why are you like this"]
         i = random.randint(0, len(quote_list) - 1)
         print(quote_list[i])
+
+    # FIXME
+    def color_mode(self):
+        if self.dark_light.text == "Dark":
+            self.change_color = (1.0, 0.0, 0.0, 1.0)
+        if self.dark_light.text == "Light":
+            self.change_color = (1.0, 1.0, 1.0, 1.0)
+
 
 
 class Menu(Screen):
