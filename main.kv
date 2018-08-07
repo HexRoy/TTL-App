@@ -55,74 +55,82 @@
     Screen:
         name: "Menu"                                            # The name of the screen
         GridLayout:                                             # Main grid layout (contains: logo, and buttons)
-            rows: 1                                             # Number of rows for main grid layout
+            rows: 1                                                 # Number of rows for main grid layout
+
             Label:                                              # Label for logo
-                font_size: 150                                  # Font size for logo
-                center_x: root.width / 4                        # X position for logo (to center it in its column)
-                top: root.top/2                                 # Centers logo in Y-height/2
-                text: "T\nT\nL"                                 # The logos text
+                font_size: 150                                      # Font size for logo
+                center_x: root.width / 4                            # X position for logo (to center it in its column)
+                top: root.top/2                                     # Centers logo in Y-height/2
+                text: "T\nT\nL"                                     # The logos text
+
             BoxLayout:                                          # Box layout containing the buttons
-                orientation: "vertical"                         # Vertical layout (Buttons stacked on each other)
-                Button:                                         # Top button
-                    text: "Routines"                            # Buttons text
+                orientation: "vertical"                             # Vertical layout (Buttons stacked on each other)
+
+                Button:                                         # Routines button
+                    text: "Routines"                                # Buttons text
                     on_press:
-                        root.transition.direction = 'left'      # The direction of the transition
-                        root.current = "Routines"               # Which screen you are brought too
-                Button:                                         # Bottom button
-                    text: "Settings"                            # Buttons text
+                        root.transition.direction = 'left'          # The direction of the transition
+                        root.current = "Routines"                   # Which screen you are brought too
+
+                Button:                                         # Settings button
+                    text: "Settings"                                # Buttons text
                     on_press:
-                        root.transition.direction = 'left'      # The direction of the transition
-                        root.current = "Setting"                # Which screen you are brought to
+                        root.transition.direction = 'left'          # The direction of the transition
+                        root.current = "Setting"                    # Which screen you are brought to
 
     #==================================================================================================================
     # Routines Screen
     #==================================================================================================================
     Screen:
-        name: "Routines"
-        BoxLayout:
-            orientation: 'vertical'
+        name: "Routines"                                        # Name of the screen
+        BoxLayout:                                              # Box layout containing everything on the screen
+            orientation: 'vertical'                                 # Vertical layout
 
-            BoxLayout:
-                size_hint: 1, 0.1
-                orientation: 'horizontal'
-                spacing: root.width/3.25
+            BoxLayout:                                          # Box layout containing the buttons at the top
+                size_hint: 1, 0.1                                   # Size constraints for the buttons
+                orientation: 'horizontal'                           # Horizontal layout for the buttons to be side by side
+                spacing: root.width/3.25                            # Spacing between each button
 
-                Button:
-                    text: "Menu"
+                Button:                                         # Menu button
+                    text: "Menu"                                    # Text for the button
                     on_press:
-                        root.transition.direction = 'right'
-                        root.current = "Menu"
+                        root.transition.direction = 'right'         # The direction of the transition
+                        root.current = "Menu"                       # Which screen you are brought to
 
-                Button:
-                    text: "Add Routine"
+                Button:                                         # Add Routine button
+                    text: "Add Routine"                             # Text for the button
                     on_press:
-                        root.reset_add_routine()
-                        root.transition.direction = 'left'
-                        root.current = "AddRoutine"
+                        root.reset_add_routine()                    # Calls the reset_add_routine function
+                        root.transition.direction = 'left'          # The direction of the transition
+                        root.current = "AddRoutine"                 # Which screen you are brought to
 
-                Button:
-                    text: "Delete Routine"
+                Button:                                         # Delete Routine button
+                    text: "Delete Routine"                          # Text for the button
 
-            Label:
-                size_hint: 1, 0.2
-                font_size: 30
-                text: "Your Routines"
+            Label:                                              # Your Routines label
+                size_hint: 1, 0.2                                   # The size constraints
+                font_size: 30                                       # Font size
+                text: "Your Routines"                               # Labels text
 
-            BoxLayout:
-                size_hint: 1, 0.1
-                Label:
-                    font_size: 15
-                    text: "Name"
+            BoxLayout:                                          # Box layout containing the titles 'Name' & 'Last Used'
+                size_hint: 1, 0.1                                   # Size constraints
 
-                Label:
-                    font_size: 15
-                    text: "Last Used"
-            ScrollView:
-                GridLayout:
-                    cols: 2
-                    id: routine_list
-                    row_force_default: True
-                    row_default_height: 35
+                Label:                                          # Name label
+                    font_size: 15                                   # Font size of label
+                    text: "Name"                                    # Labels text
+
+                Label:                                          # Last Used label
+                    font_size: 15                                   # Font size of label
+                    text: "Last Used"                               # Labels text
+
+            ScrollView:                                         # Scroll view
+                                                                    # TODO
+
+                GridLayout:                                     # Grid layout containing the list of routines
+                    cols: 2                                         # Number of columns in the layout
+                    id: routine_list                                # The ID of the grid layout
+                    row_force_default: True                         # When true, input the size manually
+                    row_default_height: 35                          # The height of the button and text
 
     #==================================================================================================================
     # Add Routine Screen
