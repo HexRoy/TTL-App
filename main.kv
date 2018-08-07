@@ -100,7 +100,7 @@
                 Button:                                         # Add Routine button
                     text: "Add Routine"                             # Text for the button
                     on_press:
-                        root.reset_add_routine()                    # Calls the reset_add_routine function
+                        root.reset_add_routine()                    # Calls the reset_add_routine (to reset fields)
                         root.transition.direction = 'left'          # The direction of the transition
                         root.current = "AddRoutine"                 # Which screen you are brought to
 
@@ -136,107 +136,119 @@
     # Add Routine Screen
     #==================================================================================================================
     Screen:
-        name: "AddRoutine"
-        BoxLayout:
-            orientation: 'vertical'
+        name: "AddRoutine"                                      # Name of the screen
+        BoxLayout:                                              # Box layout containing everything on the screen
+            orientation: 'vertical'                                 # Vertical layout (stacked)
 
-            BoxLayout:
-                size_hint: 1, .45
-                orientation: 'horizontal'
-                spacing: root.width/3.25
+            BoxLayout:                                          # Box Layout got the top buttons
+                size_hint: 1, .45                                   # Size constrains for the buttons
+                orientation: 'horizontal'                           # Horizontal layout (side by side)
+                spacing: root.width/3.25                            # Spacing between button
 
-                Button:
-                    text: "Routines"
+                Button:                                         # Routines button
+                    text: "Routines"                                # Buttons text
                     on_press:
-                        root.transition.direction = 'right'
-                        root.current = "Routines"
+                        root.transition.direction = 'right'         # Direction of the transition
+                        root.current = "Routines"                   # The screen it will bring you to
 
-                Button:
-                    text: "Clear All"
+                Button:                                         # Clear All button
+                    text: "Clear All"                               # Buttons text
                     on_press:
-                        root.clear_all()
+                        root.clear_all()                            # Calls the clear_all function
 
-                Button:
-                    id: save
-                    text: "Save"
+                Button:                                         # Save button
+                    id: save                                        # Buttons ID
+                    text: "Save"                                    # Buttons text
                     on_press:
-                        root.save_and_create()
-                        if root.is_entries(): root.transition.direction = 'right'
-                        if root.is_entries(): root.current = "Routines"
+                        root.save_and_create()                      # Calls the save_and_create (to save data to .csv)
+                        if root.is_entries(): root.transition.direction = 'right'   # Checks if entries are there
+                        if root.is_entries(): root.current = "Routines"             # If so, changes screens
 
-            Label:
-                text: "New Routine"
-                font_size: 30
+            Label:                                              # New Routines label
+                text: "New Routine"                                 # Labels text
+                font_size: 30                                       # Labels font size
 
-            BoxLayout:
-                orientation: 'horizontal'
+            BoxLayout:                                          # Box layout containing: Title, and text input
+                orientation: 'horizontal'                           # Horizontal orientation
 
-                Label:
-                    text: "Enter Routine Name:"
-                    font_size: 20
+                Label:                                          # Enter Routine name label
+                    text: "Enter Routine Name:"                     # Text for the label
+                    font_size: 20                                   # Font size for the label
 
-                TextInput:
-                    id: routine_name
-            GridLayout:
-                id: workout_grid
-                cols: 4
-                rows: 0
-            BoxLayout:
-                orientation: "horizontal"
-                Label:
-                    text: "Name"
-                Label:
-                    text: "Sets"
-                Label:
-                    text: "Reps"
-                Label:
-                    text: "Weight"
+                TextInput:                                      # Text input for the routine name
+                    id: routine_name                                # ID of the text input
 
-            BoxLayout:
-                orientation: "horizontal"
-                TextInput:
-                    id: name
-                TextInput:
-                    id: sets
-                    input_filter: 'int'
-                TextInput:
-                    id: reps
-                    input_filter: 'int'
-                TextInput:
-                    id: weight
-                    input_filter: 'int'
+            GridLayout:                                         # Grid layout containing the exercises you input
+                id: workout_grid                                    # ID of the grid
+                cols: 4                                             # Number of columns in the grid
+                rows: 0                                             # Number of rows in the grid (is incremented later)
 
-            Button:
-                text: "Next"
+            BoxLayout:                                          # Box layout containing 'titles' for text input
+                orientation: "horizontal"                           # Horizontal orientation (side by side)
+
+                Label:                                          # Name label
+                    text: "Name"                                    # Text for label
+
+                Label:                                          # Sets label
+                    text: "Sets"                                    # Text for label
+
+                Label:                                          # Reps label
+                    text: "Reps"                                    # Text for label
+
+                Label:                                          # Weight label
+                    text: "Weight"                                  # Text for label
+
+            BoxLayout:                                          # Box layout (will be inputted into workout_grid)
+                orientation: "horizontal"                           # Horizontal orientation
+
+                TextInput:                                      # Name text input
+                    id: name                                        # ID of text input
+
+                TextInput:                                      # Sets text input
+                    id: sets                                        # ID of text input
+                    input_filter: 'int'                             # Only accepts numbers
+
+                TextInput:                                      # Reps text input
+                    id: reps                                        # ID of text input
+                    input_filter: 'int'                             # Only accepts numbers
+
+                TextInput:                                      # Weight text input
+                    id: weight                                      # ID of text input
+                    input_filter: 'int'                             # Only accepts numbers
+
+            Button:                                             # Next Button
+                text: "Next"                                        # Buttons text
                 on_press:
-                    root.add_to_grid()
+                    root.add_to_grid()                              # Calls add_to_grid (To add text input to grid)
 
     #==================================================================================================================
     # Display Routine Screen
     #==================================================================================================================
     Screen:
-        name: "DisplayRoutine"
+        name: "DisplayRoutine"                                  # Name of screen
+        BoxLayout:                                              # Box layout containing everything in Display routines
+            orientation: 'vertical'                                 # Vertical layout (stacked)
 
-        BoxLayout:
-            orientation: 'vertical'
+            BoxLayout:                                          # Box layout containing top buttons
+                orientation: 'horizontal'                           # Horizontal layout (side by side)
 
-            BoxLayout:
-                orientation: 'horizontal'
-                Button:
-                    text: "Routines"
+                Button:                                         # Routines button
+                    text: "Routines"                                # Buttons text
                     on_press:
-                        root.transition.direction = 'right'
-                        root.current = "Routines"
-                Label:
-                    id: display_workout_name
-                    text: ""
-                Button:
-                    text: "Edit"
-                    on_press:
-                        print('editing')
+                        root.transition.direction = 'right'         # Direction of transition
+                        root.current = "Routines"                   # Which page you are brought to
 
-            GridLayout:
-                cols: 4
+                Label:                                          # Workout name label
+                    id: display_workout_name                        # ID of the label
+                    text: ""                                        # Labels text
+
+                Button:                                         # Edit button
+                    text: "Edit"                                    # Buttons text
+                    on_press:
+                        print('editing')                            # TODO: implement
+
+            GridLayout:                                         # Grid layout containing all workout information
+                cols: 4                                             # TODO: implement
                 rows: 0
 
 
@@ -244,60 +256,69 @@
     # Settings Screen
     #==================================================================================================================
     Screen:
-        name: "Setting"
+        name: "Setting"                                         # Screens name
+        BoxLayout:                                              # Box layout containing everything in settings
+            orientation: 'vertical'                                 # Vertical layout (stacked)
 
-        BoxLayout:
-            orientation: 'vertical'
-
-            Button:
-                size_hint: 1, 0.3
-                text: "Menu"
+            Button:                                             # Menu button
+                size_hint: 1, 0.3                                   # Size constraints of button
+                text: "Menu"                                        # Buttons text
                 on_press:
-                    root.transition.direction = 'right'
-                    root.current = "Menu"
+                    root.transition.direction = 'right'             # Direction of transition
+                    root.current = "Menu"                           # Which screen you are brought to
 
-            Label:
-                font_size: 30
-                text: "Settings"
+            Label:                                              # Settings label
+                font_size: 30                                       # Labels font size
+                text: "Settings"                                    # Labels text
 
-            BoxLayout:
-                orientation: 'horizontal'
-                Label:
-                    font_size: 15
-                    text: "Notifications"
-                Switch:
+            BoxLayout:                                          # Box layout containing the settings
+                orientation: 'horizontal'                           # Horizontal orientation (side by side)
 
-            BoxLayout:
-                orientation: 'horizontal'
-                Label:
-                    font_size: 15
-                    text: "Auto-Increase Wight"
-                Switch:
+                Label:                                          # Notifications label
+                    font_size: 15                                   # Labels font size
+                    text: "Notifications"                           # Labels text
 
-            BoxLayout:
-                orientation: 'horizontal'
-                Label:
-                    font_size: 15
-                    text: "Motivation Quotes"
-                Switch:
+                Switch:                                         # Notifications switch
+
+            BoxLayout:                                          # Box layout containing auto increase weight
+                orientation: 'horizontal'                           # Horizontal orientation (side by side)
+
+                Label:                                          # Auto increase weight label
+                    font_size: 15                                   # labels font size
+                    text: "Auto-Increase Wight"                     # labels text
+
+                Switch:                                         # Auto increase weight switch
+
+            BoxLayout:                                          # Box layout containing motivational quotes
+                orientation: 'horizontal'                           # Horizontal Orientation (side by side)
+
+                Label:                                          # Motivational quotes label
+                    font_size: 15                                   # labels font size
+                    text: "Motivation Quotes"                       # labels text
+
+                Switch:                                         # Motivational quotes switch
 
 
-            BoxLayout:
-                orientation: 'horizontal'
-                Label:
-                    font_size: 15
-                    text: "Color Scheme"
-                BoxLayout:
-                    orientation: 'horizontal'
-                    Button:
-                        id: button
-                        text: "Light"
+            BoxLayout:                                          # Box layout containing color scheme
+                orientation: 'horizontal'                           # Horizontal orientation (size by side)
+
+                Label:                                          # Color scheme label
+                    font_size: 15                                   # Labels font size
+                    text: "Color Scheme"                            # Labels text
+
+                BoxLayout:                                      # Box Layout containing buttons for color scheme
+                    orientation: 'horizontal'                       # Horizontal orientation (side by side)
+
+                    Button:                                     # Light mode button
+                        id: button                                  # Button Id
+                        text: "Light"                               # Button text
                         on_press:
                             color: (222,222,222,222)
                             background_color: (1.0, 0.0, 0.0, 1.0)
-                    Button:
-                        id: button
-                        text: "Dark"
+
+                    Button:                                     # Dark mode button
+                        id: button                                  # Button id
+                        text: "Dark"                                # Button text
                         on_press:
                             self.background_color:(222,222,222,222)
 
