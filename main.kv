@@ -27,7 +27,6 @@
 
 # TODO: DisplayRoutine
 #----------------------
-# TODO: opens the text file and displays all the data
 # TODO: implement a way to use the routine and add data.
 # TODO: Add the quotes if you fail
 # TODO: once clicked on routine change the last used to the current date
@@ -37,6 +36,7 @@
 
 # TODO: Display Exercise
 #-----------------------
+# TODO: opens the text file and displays all the data
 # TODO: change color from red to green color=[0.502, 0, 0, 1]
 
 <ScreenManager>:
@@ -52,7 +52,8 @@
     routine_grid: routine_list          # Grid layout to hold all of the routines (Routines)
     display_name: display_workout_name  # The title for the workout (Display Routine)
     display_grid: display_routine_grid
-
+    display_ex_name: display_exercise_name
+    display_ex_grid: display_exercise_grid
     dark_light: button
 
     #==================================================================================================================
@@ -166,9 +167,7 @@
                     id: save                                        # Buttons ID
                     text: "Save"                                    # Buttons text
                     on_press:
-                        if root.is_unique(): root.save_and_create()                      # Calls the save_and_create (to save data to .csv)
-                        #if root.is_unique(): root.transition.direction = 'right'   # Checks if entries are there
-                        #if root.is_unique(): root.current = "Routines"             # If so, changes screens
+                        if root.is_unique(): root.save_and_create()  # Calls the save_and_create (to save data to .csv)
 
             Label:                                              # New Routines label
                 text: "New Routine"                                 # Labels text
@@ -256,6 +255,39 @@
 
             GridLayout:                                         # Grid layout containing all workout information
                 id : display_routine_grid
+                cols: 2
+                rows: 0
+
+
+    #==================================================================================================================
+    # Display Exercise Screen
+    #==================================================================================================================
+    Screen:
+        name: "DisplayExercise"                                 # Name of screen
+        BoxLayout:                                              # Box layout containing everything in Display routines
+            orientation: 'vertical'                                 # Vertical layout (stacked)
+
+            BoxLayout:                                          # Box layout containing top buttons
+                orientation: 'horizontal'                           # Horizontal layout (side by side)
+
+                Button:                                         # Routines button
+                    text: "Back"                                # Buttons text
+                    on_press:
+                        root.reset_display()
+                        root.transition.direction = 'right'         # Direction of transition
+                        root.current = "DisplayRoutine"                   # Which page you are brought to
+
+                Label:                                          # Workout name label
+                    id: display_exercise_name                       # ID of the label
+                    text: ""                                        # Labels text
+
+                Button:                                         # Edit button
+                    text: "Edit"                                    # Buttons text
+                    on_press:
+                        print('editing')
+
+            GridLayout:                                         # Grid layout containing all workout information
+                id : display_exercise_grid
                 cols: 2
                 rows: 0
 

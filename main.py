@@ -119,10 +119,12 @@ class ScreenManager(ScreenManager):
                 ScreenManager.update_routines(self)
 
                 self.save_button.text = str('Saved')    # Change button to 'saved'
+
+                self.add_routine_grid.clear_widgets()  # Clears out the grid layout
                 self.add_routine_grid.rows = 0          # Resets the rows in the add_routine grid
 
-                self.transition.direction = 'right'
-                self.current = "Routines"
+                self.transition.direction = 'right'     # Sets the transition direction
+                self.current = "Routines"               # Which screen to change to
 
     # Adds the button and 'last used' to the Routines page
     def update_routines(self):
@@ -180,8 +182,10 @@ class ScreenManager(ScreenManager):
                     name_label = Label(text='Exercise Name')
                     self.display_grid.add_widget(name_label)
                     line_count += 1
+
                 elif line_count == 1:
                     line_count += 1
+
                 else:
                     my_button = Button(text="Not Completed",  color=[0.502, 0, 0, 1], background_color=[0.502, 0, 0, 1])
                     self.display_grid.add_widget(my_button)
