@@ -123,9 +123,20 @@ class ScreenManager(ScreenManager):
 
     # Adds the button and 'last used' to the Routines page
     def update_routines(self):
-        self.routine_grid.add_widget(Button(text=self.workout_name.text))   # Creates/adds the button to Routines page
+        # button properties
+        new_button = Button(text=self.workout_name.text, on_press=self.open_routine, id=self.workout_name.text)
+
+        self.routine_grid.add_widget(new_button)                            # Creates/adds the button to Routines page
         last_used = Label(text="You have not used this workout routine")    # Creates the label with the last time used
         self.routine_grid.add_widget(last_used)                             # Adds the label to the Routines page
+
+    # What will happen when pressing a routine
+    def open_routine(self, instance):
+        print('opening:', instance.id)                  # TODO: for testing only
+        self.transition.direction = 'left'              # Changes the open direction to go left
+        self.current = "DisplayRoutine"                 # Which screen it will change to
+        self.display_name.text = str(instance.id)       # Changes the label to the current routine
+
 
     def clear_all(self):
         self.add_routine_grid.clear_widgets()       # Clears out the grid layout
@@ -143,8 +154,17 @@ class ScreenManager(ScreenManager):
             if workout_list != []:
                 return True
         return False
+
     # =================================================================================================================
-    # Functions for settings
+    # Functions for Display Routine
+    # =================================================================================================================
+
+    def get_label_name(self):           # TODO: Not needed?
+        pass
+
+
+    # =================================================================================================================
+    # Functions for Settings
     # =================================================================================================================
 
     # To display notifications on your device
@@ -170,7 +190,9 @@ class ScreenManager(ScreenManager):
             self.change_color = (1.0, 1.0, 1.0, 1.0)
 
 
-
+# =================================================================================================================
+# Different Screen classes
+# =================================================================================================================
 class Menu(Screen):
     pass
 
@@ -184,6 +206,10 @@ class Setting(Screen):
 
 
 class AddRoutine(Screen):
+    pass
+
+
+class DisplayRoutine(Screen):
     pass
 
 

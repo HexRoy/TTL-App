@@ -28,9 +28,11 @@
 # TODO: implement a way to use the routine and add data.
 # TODO: Add the quotes if you fail
 # TODO: once clicked on routine change the last used to the current date
+# TODO: Figure out a way to get the variables once the file button is clicked
 
 <ScreenManager>:
 
+    # IDs for various buttons/grids
     workout_name: routine_name          # The name of the routine (Add Routine)
     exercise_name: name                 # The name of the exercise (Add Routine)
     num_sets: sets                      # The number of sets (Add Routine)
@@ -39,10 +41,12 @@
     add_routine_grid: workout_grid      # Grid layout to hold workout information (Add Routine)
     save_button: save                   # Button to save the data entered in add_routine_grid (Add Routine)
     routine_grid: routine_list          # Grid layout to hold all of the routines (Routines)
-
+    display_name: display_workout_name  # The title for the workout (Display Routine)
 
     dark_light: button
-
+    #==================================================================================================================
+    # Menu Screen
+    #==================================================================================================================
     Screen:
         name: "Menu"
         GridLayout:
@@ -65,6 +69,9 @@
                         root.transition.direction = 'left'
                         root.current = "Setting"
 
+    #==================================================================================================================
+    # Routines Screen
+    #==================================================================================================================
     Screen:
         name: "Routines"
         BoxLayout:
@@ -112,7 +119,9 @@
                     row_force_default: True
                     row_default_height: 35
 
-
+    #==================================================================================================================
+    # Add Routine Screen
+    #==================================================================================================================
     Screen:
         name: "AddRoutine"
         BoxLayout:
@@ -189,6 +198,38 @@
                 on_press:
                     root.add_to_grid()
 
+    #==================================================================================================================
+    # Display Routine Screen
+    #==================================================================================================================
+    Screen:
+        name: "DisplayRoutine"
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Button:
+                    text: "Routines"
+                    on_press:
+                        root.transition.direction = 'right'
+                        root.current = "Routines"
+                Label:
+                    id: display_workout_name
+                    text: ""
+                Button:
+                    text: "Edit"
+                    on_press:
+                        print('editing')
+
+            GridLayout:
+                cols: 4
+                rows: 0
+
+
+    #==================================================================================================================
+    # Settings Screen
+    #==================================================================================================================
     Screen:
         name: "Setting"
 
