@@ -13,6 +13,7 @@ Builder.load_file('main.kv')
 routine_name_list = []
 workout_list = []
 
+
 class ScreenManager(ScreenManager):
 
     # =================================================================================================================
@@ -92,20 +93,13 @@ class ScreenManager(ScreenManager):
 
         # Checks to make sure the routine name is not empty
         if self.workout_name.text != "":
-            if workout_list != []:
+            if workout_list:
                 # Gets the name of the routine to be used as the button
                 routine_name = self.workout_name.text
 
                 # Adds the routine name and string to the list
-                routine_name_list.append({'routine': routine_name, 'last_used': "You have not used this workout routine"})
-
-                file_name = routine_name + '.csv'                                   # Creates the file name (as .csv file)
-                for file in os.listdir("routines/"):                                # Looks through all saved routines
-                    if file.endswith(".csv"):                                       # Makes sure its a .csv file
-                        if file_name == file:                                       # If there are matching file names
-                            print("You already have a routine named:", file_name)   # Tell the user they need a new name
-                            return
-
+                routine_name_list.append({'routine': routine_name, 'last_used': "Not Used"})
+                file_name = routine_name + '.csv'                   # Creates the file name (as .csv file)
                 my_file = open("routines/" + file_name, 'w')        # Creates the file to store the routine
 
                 # Dict headers to point to the data in the dict
@@ -125,7 +119,10 @@ class ScreenManager(ScreenManager):
                 ScreenManager.update_routines(self)
 
                 self.save_button.text = str('Saved')    # Change button to 'saved'
-                #self.add_routine_grid.rows = 0          # Resets the rows in the add_routine grid
+                self.add_routine_grid.rows = 0          # Resets the rows in the add_routine grid
+
+                self.transition.direction = 'right'
+                self.current = "Routines"
 
     # Adds the button and 'last used' to the Routines page
     def update_routines(self):
@@ -148,11 +145,19 @@ class ScreenManager(ScreenManager):
         routine_name_list.clear()                   # Empties the routine list to prepare for new data
         workout_list.clear()                        # Empties the workout list to prepare for new data
 
-    def is_entries(self):
+    def is_unique(self):
         if self.workout_name.text != "":
-            if workout_list != []:
-                return True
-        return False
+            if workout_list:
+                # Gets the name of the routine to be used as the button
+                routine_name = self.workout_name.text
+                file_name = routine_name + '.csv'  # Creates the file name (as .csv file)
+                for file in os.listdir("routines/"):  # Looks through all saved routines
+                    if file.endswith(".csv"):  # Makes sure its a .csv file
+                        if file_name == file:  # If there are matching file names
+                            print("You already have a routine named:", file_name)  # Tell the user they need a new name
+                            routine_name_list.clear()  # Clears the list for new data
+                            return False
+        return True
 
     # =================================================================================================================
     # Functions for Display Routine

@@ -13,8 +13,6 @@
 
 # TODO: AddRoutine
 #------------------
-# FIXME: Bug, Add routine with same name as existing, go back to routines, go back to add routine, change name and save
-    # FIXME: the already exisiting name is saved too
 # TODO: add timer option
 # TODO: add scroll view to grid layout
 # TODO: Create database instead of CSV files
@@ -56,7 +54,7 @@
     display_grid: display_routine_grid
 
     dark_light: button
-    
+
     #==================================================================================================================
     # Menu Screen
     #==================================================================================================================
@@ -168,9 +166,9 @@
                     id: save                                        # Buttons ID
                     text: "Save"                                    # Buttons text
                     on_press:
-                        root.save_and_create()                      # Calls the save_and_create (to save data to .csv)
-                        if root.is_entries(): root.transition.direction = 'right'   # Checks if entries are there
-                        if root.is_entries(): root.current = "Routines"             # If so, changes screens
+                        if root.is_unique(): root.save_and_create()                      # Calls the save_and_create (to save data to .csv)
+                        #if root.is_unique(): root.transition.direction = 'right'   # Checks if entries are there
+                        #if root.is_unique(): root.current = "Routines"             # If so, changes screens
 
             Label:                                              # New Routines label
                 text: "New Routine"                                 # Labels text
