@@ -13,6 +13,8 @@
 
 # TODO: AddRoutine
 #------------------
+# FIXME: Bug, Add routine with same name as existing, go back to routines, go back to add routine, change name and save
+    # FIXME: the already exisiting name is saved too
 # TODO: add timer option
 # TODO: add scroll view to grid layout
 # TODO: Create database instead of CSV files
@@ -22,6 +24,7 @@
 # TODO: Settings
 #----------------
 # TODO: All functionality for buttons and switches
+# TODO: replace with toggle buttons
 
 
 # TODO: DisplayRoutine
@@ -31,6 +34,12 @@
 # TODO: Add the quotes if you fail
 # TODO: once clicked on routine change the last used to the current date
 # TODO: Figure out a way to get the variables once the file button is clicked
+# TODO: Have to reset it every time you switch screens
+
+
+# TODO: Display Exercise
+#-----------------------
+# TODO: change color from red to green color=[0.502, 0, 0, 1]
 
 <ScreenManager>:
 
@@ -44,11 +53,10 @@
     save_button: save                   # Button to save the data entered in add_routine_grid (Add Routine)
     routine_grid: routine_list          # Grid layout to hold all of the routines (Routines)
     display_name: display_workout_name  # The title for the workout (Display Routine)
+    display_grid: display_routine_grid
 
     dark_light: button
-    #==================================================================================================================
-    # Menu Screen
-    #==================================================================================================================
+    
     #==================================================================================================================
     # Menu Screen
     #==================================================================================================================
@@ -235,6 +243,7 @@
                 Button:                                         # Routines button
                     text: "Routines"                                # Buttons text
                     on_press:
+                        root.reset_display()
                         root.transition.direction = 'right'         # Direction of transition
                         root.current = "Routines"                   # Which page you are brought to
 
@@ -245,11 +254,13 @@
                 Button:                                         # Edit button
                     text: "Edit"                                    # Buttons text
                     on_press:
-                        print('editing')                            # TODO: implement
+                        print('editing')
 
             GridLayout:                                         # Grid layout containing all workout information
-                cols: 4                                             # TODO: implement
+                id : display_routine_grid
+                cols: 2
                 rows: 0
+
 
 
     #==================================================================================================================

@@ -5,6 +5,7 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 import random
 from csv import DictWriter
+import csv
 import os
 
 Builder.load_file('main.kv')
@@ -123,8 +124,8 @@ class ScreenManager(ScreenManager):
                 # Updates the Routines page with the new routine button
                 ScreenManager.update_routines(self)
 
-                # Change button to 'saved'
-                self.save_button.text = str('Saved')
+                self.save_button.text = str('Saved')    # Change button to 'saved'
+                #self.add_routine_grid.rows = 0          # Resets the rows in the add_routine grid
 
     # Adds the button and 'last used' to the Routines page
     def update_routines(self):
@@ -135,16 +136,9 @@ class ScreenManager(ScreenManager):
         last_used = Label(text="You have not used this workout routine")    # Creates the label with the last time used
         self.routine_grid.add_widget(last_used)                             # Adds the label to the Routines page
 
-    # What will happen when pressing a routine
-    def open_routine(self, instance):
-        print('opening:', instance.id)                  # TODO: for testing only
-        self.transition.direction = 'left'              # Changes the open direction to go left
-        self.current = "DisplayRoutine"                 # Which screen it will change to
-        self.display_name.text = str(instance.id)       # Changes the label to the current routine
-
-
     def clear_all(self):
         self.add_routine_grid.clear_widgets()       # Clears out the grid layout
+        self.add_routine_grid.rows = 0              # Resets the row count
         self.workout_name.text = ""                 # Clears out the routine name text box
         self.exercise_name.text = ""                # Clears out the exercise name text box
         self.num_sets.text = ""                     # Clears out the sets text box
@@ -163,9 +157,36 @@ class ScreenManager(ScreenManager):
     # =================================================================================================================
     # Functions for Display Routine
     # =================================================================================================================
-    def get_label_name(self):           # TODO: Not needed?
-        pass
+    # What will happen when pressing a routine
+    def open_routine(self, instance):
+        self.transition.direction = 'left'  # Changes the open direction to go left
+        self.current = "DisplayRoutine"  # Which screen it will change to
+        self.display_name.text = str(instance.id)  # Changes the label to the current routine
+        filename = 'routines/' + instance.id + '.csv'
 
+        with open(filename) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                self.display_grid.rows += 1
+                if line_count == 0:
+                    status_label = Label(text='Status')
+                    self.display_grid.add_widget(status_label)
+                    name_label = Label(text='Exercise Name')
+                    self.display_grid.add_widget(name_label)
+                    line_count += 1
+                elif line_count == 1:
+                    line_count += 1
+                else:
+                    my_button = Button(text="Not Completed",  color=[0.502, 0, 0, 1], background_color=[0.502, 0, 0, 1])
+                    self.display_grid.add_widget(my_button)
+                    name = row[2]
+                    my_label = Label(text=name, color=[1, 1, 1, 1])
+                    self.display_grid.add_widget(my_label)
+
+    def reset_display(self):
+        self.display_grid.clear_widgets()  # Clears out the grid layout
+        self.display_grid.rows = 0
 
     # =================================================================================================================
     # Functions for Settings
