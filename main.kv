@@ -1,12 +1,14 @@
 #:kivy 1.10.1
 
 # TODO: core data for storing data
+# TODO: MAYBE - menu: Add routine; Open Routine; Settings. Open routine would be able to look though the /routines/ file
+
 
 # TODO: Routines
 #----------------
 # TODO: add scroll view to grid layout
-# TODO: let each routine be click-able and bring you to a popup (Maybe)
 # TODO: implement delete routine, and possibly swipe to delete     https://github.com/kivy-garden/garden.swipetodelete
+# TODO: Have existing routines in folder appear
 
 
 # TODO: AddRoutine
@@ -47,27 +49,30 @@
     #==================================================================================================================
     # Menu Screen
     #==================================================================================================================
+    #==================================================================================================================
+    # Menu Screen
+    #==================================================================================================================
     Screen:
-        name: "Menu"
-        GridLayout:
-            rows: 1
-            Label:
-                font_size: 150
-                center_x: root.width / 4
-                top: root.top/2
-                text: "T\nT\nL"
-            BoxLayout:
-                orientation: "vertical"
-                Button:
-                    text: "Routines"
+        name: "Menu"                                            # The name of the screen
+        GridLayout:                                             # Main grid layout (contains: logo, and buttons)
+            rows: 1                                             # Number of rows for main grid layout
+            Label:                                              # Label for logo
+                font_size: 150                                  # Font size for logo
+                center_x: root.width / 4                        # X position for logo (to center it in its column)
+                top: root.top/2                                 # Centers logo in Y-height/2
+                text: "T\nT\nL"                                 # The logos text
+            BoxLayout:                                          # Box layout containing the buttons
+                orientation: "vertical"                         # Vertical layout (Buttons stacked on each other)
+                Button:                                         # Top button
+                    text: "Routines"                            # Buttons text
                     on_press:
-                        root.transition.direction = 'left'
-                        root.current = "Routines"
-                Button:
-                    text: "Settings"
+                        root.transition.direction = 'left'      # The direction of the transition
+                        root.current = "Routines"               # Which screen you are brought too
+                Button:                                         # Bottom button
+                    text: "Settings"                            # Buttons text
                     on_press:
-                        root.transition.direction = 'left'
-                        root.current = "Setting"
+                        root.transition.direction = 'left'      # The direction of the transition
+                        root.current = "Setting"                # Which screen you are brought to
 
     #==================================================================================================================
     # Routines Screen

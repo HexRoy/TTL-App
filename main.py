@@ -15,9 +15,14 @@ workout_list = []
 class ScreenManager(ScreenManager):
 
     # =================================================================================================================
+    # Functions for Menu
+    # =================================================================================================================
+    def routine_grid(self):
+        pass
+
+    # =================================================================================================================
     # Functions for Routines
     # =================================================================================================================
-
     # to clear all previous entries in Add Routines
     def reset_add_routine(self):
         if self.save_button.text == 'Saved':            # Check to see if you saved the workout
@@ -30,10 +35,10 @@ class ScreenManager(ScreenManager):
             self.save_button.text = str('Save')         # Changes the 'saved' button back to save
             routine_name_list.clear()                   # Empties the routine list to prepare for new data
             workout_list.clear()                        # Empties the workout list to prepare for new data
+
     # =================================================================================================================
     # Functions for AddRoutine
     # =================================================================================================================
-
     # To reset the data fields to get ready for new entries
     def reset_fields(self):
 
@@ -158,7 +163,6 @@ class ScreenManager(ScreenManager):
     # =================================================================================================================
     # Functions for Display Routine
     # =================================================================================================================
-
     def get_label_name(self):           # TODO: Not needed?
         pass
 
@@ -166,7 +170,6 @@ class ScreenManager(ScreenManager):
     # =================================================================================================================
     # Functions for Settings
     # =================================================================================================================
-
     # To display notifications on your device
     def notifications(self):
         pass
