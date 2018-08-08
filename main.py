@@ -15,6 +15,8 @@ Builder.load_file('main.kv')
 routine_name_list = []
 workout_list = []
 
+test_list1 = []
+test_list = []
 
 class ScreenManager(ScreenManager):
 
@@ -88,6 +90,15 @@ class ScreenManager(ScreenManager):
             # Adds the data item to the list
             workout_list.append(single_exercise)
 
+
+            #FIXME
+            test_list1.append(name_text)
+            test_list1.append(sets_text)
+            test_list1.append(reps_text)
+            test_list1.append(weight_text)
+
+
+
             # Calls the next step
             ScreenManager.reset_fields(self)
 
@@ -101,6 +112,13 @@ class ScreenManager(ScreenManager):
 
                 # Adds the routine name and string to the list
                 routine_name_list.append({'routine': routine_name, 'last_used': "Not Used"})
+
+                # FIXME TEST LIST WORKS, replace other list
+                test_list.append(routine_name)
+                test_list.append('Not Used')
+                test_list.extend(test_list1)
+                print(test_list)
+
                 file_name = routine_name + '.csv'                   # Creates the file name (as .csv file)
                 my_file = open("routines/" + file_name, 'w')        # Creates the file to store the routine
 
@@ -111,10 +129,24 @@ class ScreenManager(ScreenManager):
                 writer = DictWriter(my_file, fieldnames=fieldnames, extrasaction='ignore', delimiter=',',
                                     lineterminator='\n')
 
+                csv_titles = ['Routine Name', 'Last Used']  # The first two titles will always be this
+                number_exercises = len(workout_list)        # Gets the number of exercises in the routine
+                for i in range(number_exercises):           # Loops through each one and adds titles for each
+                    csv_titles.append('Exercise Name')      # Exercise Name title
+                    csv_titles.append('Sets')               # Sets title
+                    csv_titles.append('Reps')               # Reps title
+                    csv_titles.append('Weight')             # Weight title
+
+                print("csvtitles: ", csv_titles)
+                print("test list: ", test_list)
                 # Write titles
-                writer.writer.writerow(['Routine Name', 'Last Used', 'Exercise Name', 'Sets', 'Reps', 'Weight'])
-                writer.writerows(routine_name_list)     # First writes the routine name and last used date
-                writer.writerows(workout_list)          # Then writes each workout
+                writer.writer.writerow(csv_titles)      # Writes the titles across the top row of csv file
+
+                writer.writer.writerow(test_list)
+
+                # FIXME: commented out for testing above code
+                #writer.writerows(routine_name_list)     # First writes the routine name and last used date
+                #writer.writerows(workout_list)          # Then writes each workout
                 my_file.close()                         # Closes file
 
                 # Updates the Routines page with the new routine button
@@ -168,78 +200,77 @@ class ScreenManager(ScreenManager):
     # =================================================================================================================
     # What will happen when pressing a routine
     def open_routine(self, instance):
-        self.transition.direction = 'left'  # Changes the open direction to go left
-        self.current = "DisplayRoutine"  # Which screen it will change to
-        self.display_name.text = str(instance.id)  # Changes the label to the current routine
-        file_name = 'routines/' + instance.id + '.csv'
+        self.transition.direction = 'left'                  # Changes the open direction to go left
+        self.current = "DisplayRoutine"                     # Which screen it will change to
+        self.display_name.text = str(instance.id)           # Changes the label to the current routine
+        file_name = 'routines/' + instance.id + '.csv'      # Creates the full file name with extension
 
-        with open(file_name) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            line_count = 0
-            for row in csv_reader:
-                self.display_grid.rows += 1
-                if line_count == 0:
-                    status_label = Label(text='Status')
-                    self.display_grid.add_widget(status_label)
-                    name_label = Label(text='Exercise Name')
-                    self.display_grid.add_widget(name_label)
-                    line_count += 1
+        with open(file_name) as csv_file:                       # Opens the file to read
+            csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
+            line_count = 0                                      # To keep track of what line of the file were on
+            for row in csv_reader:                              # Loops for each row in the file
+                self.display_grid.rows += 1                     # Adds a row in the grid for the exercise
+                if line_count == 0:                             # On the first line
+                    status_label = Label(text='Status')             # Creates status label
+                    self.display_grid.add_widget(status_label)      # Adds label to the grid
+                    name_label = Label(text='Exercise Name')        # Creates exercise name label
+                    self.display_grid.add_widget(name_label)        # Adds label to the grid
+                    line_count += 1                                 # Increments the line counter
+                elif line_count == 1:                           # On the second line
+                    line_count += 1                                 # No data is need here, increment line counter
+                else:                                           # On the rest of the lines
+                    name = row[2]                                   # Exercise name is set to 'name'
+                    id_name = file_name + ',' + row[2]              # Creates id_name with filename and exercise name
 
-                elif line_count == 1:
-                    line_count += 1
-
-                else:
-                    name = row[2]
-                    id_name = file_name + ',' + row[2]
-                    print(name)
-
+                    # Creates a label for the exercise name
                     my_label = Label(text=name, color=[1, 1, 1, 1])
+                    # Creates a button for the status of completion for the exercise
                     my_button = Button(text="Not Completed",  color=[0.502, 0, 0, 1], background_color=[0.502, 0, 0, 1],
                                        on_press=self.open_exercise, id=id_name)
-                    self.display_grid.add_widget(my_button)
-                    self.display_grid.add_widget(my_label)
+                    self.display_grid.add_widget(my_button)     # Adds the button to the grid
+                    self.display_grid.add_widget(my_label)      # Adds the label to the grid
 
     def reset_display(self):
         self.display_grid.clear_widgets()  # Clears out the grid layout
-        self.display_grid.rows = 0
+        self.display_grid.rows = 0         # Resets the gridZ
 
     # =================================================================================================================
     # Functions for Display Exercise
     # =================================================================================================================
     # To open each individual workout
     def open_exercise(self, instance):
-        self.transition.direction = 'left'  # Changes the open direction to go left
-        self.current = "DisplayExercise"  # Which screen it will change to
-        file_name, exercise_name = instance.id.split(",")
+        self.transition.direction = 'left'                   # Changes the open direction to go left
+        self.current = "DisplayExercise"                     # Which screen it will change to
+        file_name, exercise_name = instance.id.split(",")    # Separates the file name and exercise name from id
+        self.display_ex_name.text = exercise_name            # Sets the label to the exercise name
+        self.display_ex_grid.rows += 1                       # Adds the first row in the exercise grid
+        blank_title_label = Label(text='')                   # Blank label for formatting
+        weight_title_label = Label(text='Weight')            # Weight title
+        reps_title_label = Label(text='Reps')                # Reps title
+        self.display_ex_grid.add_widget(blank_title_label)   # Adds the blank label to the grid
+        self.display_ex_grid.add_widget(reps_title_label)    # Adds the reps label to the grid
+        self.display_ex_grid.add_widget(weight_title_label)  # Adds the weight title to the grid
 
-        self.display_ex_name.text = exercise_name
+        with open(file_name) as csv_file:                       # Opens the csv file
+            csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
+            for row in csv_reader:                              # Loops through rows in the file
+                for i in range(len(row)-1):                     # Loops through each thing in the row
+                    if row[i] == exercise_name:                 # If the element is the exercise name
+                        total_sets = row[i+1]                   # The number of sets is the next element
 
-        self.display_ex_grid.rows += 1
-        blank_title_label = Label(text='')
-        weight_title_label = Label(text='Weight')
-        reps_title_label = Label(text='Reps')
-        self.display_ex_grid.add_widget(blank_title_label)
-        self.display_ex_grid.add_widget(reps_title_label)
-        self.display_ex_grid.add_widget(weight_title_label)
-
-        with open(file_name) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            for row in csv_reader:
-                if row[2] == exercise_name:
-                    total_sets = row[3]
-
-        set_number = 1
-        for i in range(int(total_sets)):
-            self.display_ex_grid.rows += 1
-            sets_label = Label(text='Set ' + str(set_number))
-            reps_input = TextInput(input_filter='int')
-            weight_input = TextInput(input_filter='int')
-            self.display_ex_grid.add_widget(sets_label)
-            self.display_ex_grid.add_widget(reps_input)
-            self.display_ex_grid.add_widget(weight_input)
+        set_number = 1                                          # Counter for displaying the specific # set on the label
+        for i in range(int(total_sets)):                        # Loops total_sets number of times
+            self.display_ex_grid.rows += 1                      # Adds one to the grid rows each time
+            sets_label = Label(text='Set ' + str(set_number))   # Creates a label for each set (Set 1:, Set 2:, ..ect)
+            reps_input = TextInput(input_filter='int')          # Creates text input for number of completed reps
+            weight_input = TextInput(input_filter='int')        # Creates text input for weight used
+            self.display_ex_grid.add_widget(sets_label)         # Adds the sets label to grid
+            self.display_ex_grid.add_widget(reps_input)         # Adds the reps text input to the grid
+            self.display_ex_grid.add_widget(weight_input)       # Adds the weight text input to the grid
 
     def clear_exercise(self):
         self.display_ex_grid.clear_widgets()
+        self.display_ex_grid.rows = 0
 
     def save_exercise(self):
 
