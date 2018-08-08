@@ -3,10 +3,12 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
 import random
 from csv import DictWriter
 import csv
 import os
+
 
 Builder.load_file('main.kv')
 
@@ -169,9 +171,9 @@ class ScreenManager(ScreenManager):
         self.transition.direction = 'left'  # Changes the open direction to go left
         self.current = "DisplayRoutine"  # Which screen it will change to
         self.display_name.text = str(instance.id)  # Changes the label to the current routine
-        filename = 'routines/' + instance.id + '.csv'
+        file_name = 'routines/' + instance.id + '.csv'
 
-        with open(filename) as csv_file:
+        with open(file_name) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
             for row in csv_reader:
@@ -187,15 +189,63 @@ class ScreenManager(ScreenManager):
                     line_count += 1
 
                 else:
-                    my_button = Button(text="Not Completed",  color=[0.502, 0, 0, 1], background_color=[0.502, 0, 0, 1])
-                    self.display_grid.add_widget(my_button)
                     name = row[2]
+                    id_name = file_name + ',' + row[2]
+                    print(name)
+
                     my_label = Label(text=name, color=[1, 1, 1, 1])
+                    my_button = Button(text="Not Completed",  color=[0.502, 0, 0, 1], background_color=[0.502, 0, 0, 1],
+                                       on_press=self.open_exercise, id=id_name)
+                    self.display_grid.add_widget(my_button)
                     self.display_grid.add_widget(my_label)
 
     def reset_display(self):
         self.display_grid.clear_widgets()  # Clears out the grid layout
         self.display_grid.rows = 0
+
+    # =================================================================================================================
+    # Functions for Display Exercise
+    # =================================================================================================================
+    # To open each individual workout
+    def open_exercise(self, instance):
+        self.transition.direction = 'left'  # Changes the open direction to go left
+        self.current = "DisplayExercise"  # Which screen it will change to
+        file_name, exercise_name = instance.id.split(",")
+
+        self.display_ex_name.text = exercise_name
+
+        self.display_ex_grid.rows += 1
+        blank_title_label = Label(text='')
+        weight_title_label = Label(text='Weight')
+        reps_title_label = Label(text='Reps')
+        self.display_ex_grid.add_widget(blank_title_label)
+        self.display_ex_grid.add_widget(reps_title_label)
+        self.display_ex_grid.add_widget(weight_title_label)
+
+        with open(file_name) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for row in csv_reader:
+                if row[2] == exercise_name:
+                    total_sets = row[3]
+
+        set_number = 1
+        for i in range(int(total_sets)):
+            self.display_ex_grid.rows += 1
+            sets_label = Label(text='Set ' + str(set_number))
+            reps_input = TextInput(input_filter='int')
+            weight_input = TextInput(input_filter='int')
+            self.display_ex_grid.add_widget(sets_label)
+            self.display_ex_grid.add_widget(reps_input)
+            self.display_ex_grid.add_widget(weight_input)
+
+    def clear_exercise(self):
+        self.display_ex_grid.clear_widgets()
+
+    def save_exercise(self):
+
+
+        pass
+
 
     # =================================================================================================================
     # Functions for Settings
