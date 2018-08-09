@@ -13,7 +13,6 @@
 
 # TODO: AddRoutine
 #------------------
-# TODO: Change format of csv file to support progression. Sample csv file saved
 # TODO: add timer option
 # TODO: add scroll view to grid layout
 # TODO: Create database instead of CSV files
@@ -79,6 +78,7 @@
                 Button:                                         # Routines button
                     text: "Routines"                                # Buttons text
                     on_press:
+                        root.display_all_routines()
                         root.transition.direction = 'left'          # The direction of the transition
                         root.current = "Routines"                   # Which screen you are brought too
 
@@ -104,6 +104,7 @@
                 Button:                                         # Menu button
                     text: "Menu"                                    # Text for the button
                     on_press:
+                        root.clear_routines()
                         root.transition.direction = 'right'         # The direction of the transition
                         root.current = "Menu"                       # Which screen you are brought to
 

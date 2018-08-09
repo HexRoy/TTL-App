@@ -21,8 +21,28 @@ class ScreenManager(ScreenManager):
     # =================================================================================================================
     # Functions for Menu
     # =================================================================================================================
-    def routine_grid(self):
-        pass
+    def display_all_routines(self):
+
+        for file in os.listdir("routines/"):            # Looks through all saved routines
+            if file.endswith(".csv"):                   # Makes sure its a .csv file
+                current_row = 0
+                newest_row = self.get_newest_line(file)
+                # Loops to obtain data from the file
+                with open('routines/' + file) as csv_file:  # Opens the file to read
+                    csv_reader = csv.reader(csv_file, delimiter=',')  # Starts the csv reader
+                    for row in csv_reader:
+                        current_row += 1  # Increments once for each new row it loops through
+                        if current_row != newest_row:  # Checks to see if you are not on the newest like
+                            pass  # If your not, do nothing
+                        else:  # If you are, add all the data
+                            # Creates label that shows when the routine was last used
+                            last_used = Label(text=row[1])  # Creates the label with the last time used
+                            # Creates a button for the routines menu
+                            new_button = Button(text=row[0], on_press=self.open_routine, id=row[0])
+
+                            # Add the routine button and last used label to the Routines screen
+                            self.routine_grid.add_widget(new_button)  # Creates/adds the button to Routines page
+                            self.routine_grid.add_widget(last_used)  # Adds the label to the Routines page
 
     # =================================================================================================================
     # Functions for Routines
@@ -39,6 +59,9 @@ class ScreenManager(ScreenManager):
             self.save_button.text = str('Save')         # Changes the 'saved' button back to save
             routine_name_list.clear()                   # Empties the routine list to prepare for new data
             workout_list.clear()                        # Empties the workout list to prepare for new data
+
+    def clear_routines(self):
+        self.routine_grid.clear_widgets()
 
     # =================================================================================================================
     # Functions for AddRoutine
@@ -201,15 +224,9 @@ class ScreenManager(ScreenManager):
         name_label = Label(text='Exercise Name')    # Creates exercise name label
         self.display_grid.add_widget(name_label)    # Adds label to the grid
 
-        # Vars to find the most current set of data for your routine
-        newest_line = 0                                         # The number of the newest row of data
         newest_line_check = 0                                   # To check to make sure your on the newest line of data
 
-        # Loops to find the newest row
-        with open(file_name) as csv_file:                       # Opens the file to read
-            csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
-            for row in csv_reader:                              # Loops for each row in the file
-                newest_line += 1                                # Increments to keep track of the newest line
+        newest_line = self.get_newest_line(instance.id + '.csv')           # Gets the newest line in the file
 
         # Loops to obtain data from the file
         with open(file_name) as csv_file:                       # Opens the file to read
@@ -342,6 +359,18 @@ class ScreenManager(ScreenManager):
         if self.dark_light.text == "Light":
             self.change_color = (1.0, 1.0, 1.0, 1.0)
 
+    # =================================================================================================================
+    # Helper Functions
+    # =================================================================================================================
+    def get_newest_line(self, file_name):
+
+        newest_line = 0  # The number of the newest row of data
+
+        with open('routines/' + file_name) as csv_file:                       # Opens the file to read
+            csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
+            for row in csv_reader:                              # Loops for each row in the file
+                newest_line += 1                                # Increments to keep track of the newest line
+        return newest_line
 
 # =================================================================================================================
 # Different Screen classes
