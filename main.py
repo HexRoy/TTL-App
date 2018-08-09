@@ -314,6 +314,7 @@ class ScreenManager(ScreenManager):
                         total_sets = row[i+1]                   # The number of sets is the next element
 
         set_number = 1                                          # Counter for displaying the specific # set on the label
+
         for i in range(int(total_sets)):                        # Loops total_sets number of times
             self.display_ex_grid.rows += 1                      # Adds one to the grid rows each time
             sets_label = Label(text='Set ' + str(set_number))   # Creates a label for each set (Set 1:, Set 2:, ..ect)
@@ -329,6 +330,7 @@ class ScreenManager(ScreenManager):
         self.display_ex_grid.rows = 0
 
     def save_exercise(self):
+        print(self.display_ex_grid)
 
         # Todo: set the id of reps input and sets input to | file, extenetion = file_name.split('.')
         # Todo: id = file + ',' + exercise_name + 'reps/sets' +  i ?
@@ -336,7 +338,7 @@ class ScreenManager(ScreenManager):
         # Todo: implement get_set():?
 
         # for i in range(int(total_sets)):
-        
+
         pass
 
     # =================================================================================================================

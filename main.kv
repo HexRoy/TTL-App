@@ -291,6 +291,7 @@
                     text: "Done"                                    # Buttons text
                     on_press:
                         print('Saving')
+                        root.save_exercise()
 
             GridLayout:                                         # Grid layout containing all workout information
                 id : display_exercise_grid
