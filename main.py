@@ -330,7 +330,10 @@ class ScreenManager(ScreenManager):
         self.display_ex_grid.rows = 0
 
     def save_exercise(self):
-        print(self.display_ex_grid)
+
+
+        print(self.display_ex_grid.TextInput)
+
 
         # Todo: set the id of reps input and sets input to | file, extenetion = file_name.split('.')
         # Todo: id = file + ',' + exercise_name + 'reps/sets' +  i ?
