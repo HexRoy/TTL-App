@@ -185,36 +185,89 @@ class ScreenManager(ScreenManager):
     # =================================================================================================================
     # What will happen when pressing a routine
     def open_routine(self, instance):
+        # Changes screens to Display Routine
         self.transition.direction = 'left'                  # Changes the open direction to go left
         self.current = "DisplayRoutine"                     # Which screen it will change to
+
         self.display_name.text = str(instance.id)           # Changes the label to the current routine
+
         file_name = 'routines/' + instance.id + '.csv'      # Creates the full file name with extension
 
+        self.display_grid.rows += 1  # Adds a row in the grid for the exercise
+
+        # Creates titles for the Display Routine Page
+        status_label = Label(text='Status')         # Creates status label
+        self.display_grid.add_widget(status_label)  # Adds label to the grid
+        name_label = Label(text='Exercise Name')    # Creates exercise name label
+        self.display_grid.add_widget(name_label)    # Adds label to the grid
+
+        # Vars to find the most current set of data for your routine
+        newest_line = 0                                         # The number of the newest row of data
+        newest_line_check = 0                                   # To check to make sure your on the newest line of data
+
+        # Loops to find the newest row
         with open(file_name) as csv_file:                       # Opens the file to read
             csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
-            line_count = 0                                      # To keep track of what line of the file were on
             for row in csv_reader:                              # Loops for each row in the file
-                self.display_grid.rows += 1                     # Adds a row in the grid for the exercise
-                if line_count == 0:                             # On the first line
-                    status_label = Label(text='Status')         # Creates status label
-                    self.display_grid.add_widget(status_label)  # Adds label to the grid
-                    name_label = Label(text='Exercise Name')    # Creates exercise name label
-                    self.display_grid.add_widget(name_label)    # Adds label to the grid
-                    line_count += 1                             # Increments the line counter
-                elif line_count == 1:                           # On the second line
-                    line_count += 1                             # No data is need here, increment line counter
-                else:                                           # On the rest of the lines
-                    name = row[2]                               # Exercise name is set to 'name'
-                    id_name = file_name + ',' + row[2]          # Creates id_name with filename and exercise name
+                newest_line += 1                                # Increments to keep track of the newest line
 
-                    # Creates a label for the exercise name
-                    my_label = Label(text=name, color=[1, 1, 1, 1])
-                    # Creates a button for the status of completion for the exercise
-                    my_button = Button(text="Not Completed",  color=[0.502, 0, 0, 1], background_color=[0.502, 0, 0, 1],
-                                       on_press=self.open_exercise, id=id_name)
-                    self.display_grid.add_widget(my_button)     # Adds the button to the grid
-                    self.display_grid.add_widget(my_label)      # Adds the label to the grid
+        # Loops to obtain data from the file
+        with open(file_name) as csv_file:                       # Opens the file to read
+            csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
+            for newest_row in csv_reader:                       # Loops through the rows in the file
+                newest_line_check += 1                          # Increments once for each new row it loops through
+                if newest_line_check != newest_line:            # Checks to see if you are not on the newest like
+                    pass                                        # If your not, do nothing
+                else:                                           # If you are, add all the data
 
+                    # Variables to keep track of which element in the row you are on
+                    element_index = 0                           # To get the first exercise name (two elements in)
+                    exercise_number = 0                         # To get every exercise after (every four elements)
+
+                    # Loops over each element in the row
+                    for element in newest_row:
+                        if element_index == 2:                   # If your on the second element (first exercise name)
+                            self.display_grid.rows += 1          # Add a row to the grid
+                            id_name = file_name + ',' + element  # Creates id_name with filename and exercise name
+
+                            # Creates a label for the exercise name
+                            my_label = Label(text=element, color=[1, 1, 1, 1])
+
+                            # Creates a button for the status of completion for the exercise
+                            my_button = Button(text="Not Completed", color=[0.502, 0, 0, 1],
+                                               background_color=[0.502, 0, 0, 1], on_press=self.open_exercise,
+                                               id=id_name)
+
+                            self.display_grid.add_widget(my_button)  # Adds the button to the grid
+                            self.display_grid.add_widget(my_label)   # Adds the label to the grid
+
+                            # Resets the exercise number (first two loops increment it to 2)
+                            exercise_number = 0
+
+                        # To stop it for increasing element index past 3 (Needs to be higher than two)
+                        if element_index < 4:
+                            element_index += 1                      # Increments element index
+
+                        # Every four elements, there is a exercise name
+                        if exercise_number == 4:
+                            self.display_grid.rows += 1          # Increment the number of rows in grid
+                            id_name = file_name + ',' + element  # Creates id_name with filename and exercise name
+
+                            # Creates a label for the exercise name
+                            my_label = Label(text=element, color=[1, 1, 1, 1])
+
+                            # Creates a button for the status of completion for the exercise
+                            my_button = Button(text="Not Completed", color=[0.502, 0, 0, 1],
+                                               background_color=[0.502, 0, 0, 1], on_press=self.open_exercise,
+                                               id=id_name)
+
+                            self.display_grid.add_widget(my_button)  # Adds the button to the grid
+                            self.display_grid.add_widget(my_label)  # Adds the label to the grid
+                            exercise_number = 1     # Sets to 1 because it only increments 3 times, and needs to reach 4
+                        else:                       # If exercise number is not 4
+                            exercise_number += 1    # Increment the exercise number
+
+    # To reset the Display Routine page
     def reset_display(self):
         self.display_grid.clear_widgets()  # Clears out the grid layout
         self.display_grid.rows = 0         # Resets the gridZ
@@ -252,6 +305,7 @@ class ScreenManager(ScreenManager):
             self.display_ex_grid.add_widget(sets_label)         # Adds the sets label to grid
             self.display_ex_grid.add_widget(reps_input)         # Adds the reps text input to the grid
             self.display_ex_grid.add_widget(weight_input)       # Adds the weight text input to the grid
+            set_number += 1                                     # Increments the set number
 
     def clear_exercise(self):
         self.display_ex_grid.clear_widgets()
