@@ -10,3 +10,6 @@
  * python -m pip install docutils pygments pypiwin32 kivy.deps.sdl2 kivy.deps.glew
  * python -m pip install kivy.deps.gstreamer
  * pip install -r requirements.txt
+ 
+ ## Menu
+ ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/1%20Menu.png)
