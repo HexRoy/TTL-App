@@ -34,12 +34,14 @@
 
 # TODO: Display Exercise
 #-----------------------
-# TODO: save_exercise
-    # TODO: first get all of the input data from the text input.
-    # TODO: save it to variable with comas between each value
-    # TODO: search through csv file until 'exercise name' found, goto the newest line and add add info
+# TODO: Implement Done
+    # TODO: save_exercise
+        # TODO: first get all of the input data from the text input.
+        # TODO: save it to variable with comas between each value
+        # TODO: search through csv file until 'exercise name' found, goto the newest line and add add info
 # TODO: change color from red to green color=[0.502, 0, 0, 1]
-# TODO: Change 'note' to done
+
+
 
 <ScreenManager>:
 
@@ -286,9 +288,9 @@
                     text: ""                                        # Labels text
 
                 Button:                                         # Edit button
-                    text: "Note"                                    # Buttons text
+                    text: "Done"                                    # Buttons text
                     on_press:
-                        print('Implement add note')
+                        print('Saving')
 
             GridLayout:                                         # Grid layout containing all workout information
                 id : display_exercise_grid
