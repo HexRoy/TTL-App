@@ -329,10 +329,7 @@ class ScreenManager(ScreenManager):
         self.display_ex_grid.rows = 0
 
     def save_exercise(self):
-
-
         pass
-
 
     # =================================================================================================================
     # Functions for Settings
