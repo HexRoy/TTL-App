@@ -15,7 +15,7 @@ Builder.load_file('main.kv')
 routine_name_list = []
 workout_list = []
 
-update_workout_list = []
+update_workout_list = [[], [], [], []]
 
 class ScreenManager(ScreenManager):
 
@@ -288,7 +288,11 @@ class ScreenManager(ScreenManager):
     # To reset the Display Routine page
     def reset_display(self):
         self.display_grid.clear_widgets()  # Clears out the grid layout
-        self.display_grid.rows = 0         # Resets the gridZ
+        self.display_grid.rows = 0         # Resets the grid
+
+    # TODO
+    def save_routine(self):
+        pass
 
     # =================================================================================================================
     # Functions for Display Exercise
@@ -303,17 +307,15 @@ class ScreenManager(ScreenManager):
         instance.color = [0, 0.502, 0, 1]
         instance.background_color = [0, 0.502, 0, 1]
 
-
-
+    # Clears entered reps and weights and reset the current set to 1
     def clear_exercise(self):
         self.display_ex_grid.clear_widgets()
         self.number_sets.text = "1"
 
+    # Adds the entered reps and weight to the grid layout
     def add_to_ex_grid(self):
 
         set_number = self.number_sets.text
-
-
 
         # Sets all of the data to what the user inputted
         reps_label = Label(text=self.completed_reps.text + ' Reps')  # Creates label with newest number of reps inputted
@@ -334,44 +336,29 @@ class ScreenManager(ScreenManager):
             weight_text = self.completed_weight.text  # Stores the amount of weight
 
             # Appends all the exercise info to the list (order important)
-            update_workout_list.append({'name': name_text, 'sets': sets_text, 'reps': reps_text, 'weight': weight_text})
-            update_workout_list.append(name_text)
-            update_workout_list.append(sets_text)  # Adds the number of sets to the list
-            update_workout_list.append(reps_text)  # Adds the number of reps to the list
-            update_workout_list.append(weight_text)  # Adds the amount of weight to the list
+            update_workout_list[0].append(name_text)
+            update_workout_list[1].append(sets_text)  # Adds the number of sets to the list
+            update_workout_list[2].append(reps_text)  # Adds the number of reps to the list
+            update_workout_list[3].append(weight_text)  # Adds the amount of weight to the list
             print(update_workout_list)
-
 
             self.number_sets.text = str(int(self.number_sets.text)+1)
 
             # Calls the next step
             ScreenManager.reset_set_input(self)
 
-
+    # Resets the reps and weight input every time they are added to the grid
     def reset_set_input(self):
         self.completed_reps.text = ""
         self.completed_weight.text = ""
 
+    # TODO: Change the red color to green, and also change text to completed (Already implemented in a cheaty way)
     def change_to_completed(self):
         pass
 
-    def save_exercise(self):
-
-
+    # TODO: reset the update_workout_list when leaving that workout. Must save to save
+    def reset_routine(self):
         pass
-
-
-
-        # Todo: set the id of reps input and sets input to | file, extenetion = file_name.split('.')
-        # Todo: id = file + ',' + exercise_name + 'reps/sets' +  i ?
-
-        # Todo: implement get_set():?
-
-        # Todo: Display one input at a time, then click next set a the bottom.
-            # todo: Next_set() will save the data to the csv file and
-        # for i in range(int(total_sets)):
-
-
 
     # =================================================================================================================
     # Functions for Settings

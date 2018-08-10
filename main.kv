@@ -28,9 +28,9 @@
 #----------------------
 # TODO: add progress bar based on the completion of exercises
 # TODO: implement a way to use the routine and add data.
-# TODO: Add the quotes if you fail
+# TODO: Add the quotes if you don't reach the target reps
 # TODO: once clicked on routine change the last used to the current date
-    # TODO: if any status's are completed change the date
+    # TODO: if any status's are completed + you save the workout -> change the date
 
 # TODO: Display Exercise
 #-----------------------
@@ -275,6 +275,7 @@
                 on_press:
                     print("saving")
 
+
     #==================================================================================================================
     # Display Exercise Screen
     #==================================================================================================================
@@ -302,6 +303,7 @@
                     on_press:
                         print('Saving')
                         root.change_to_completed()
+                        root.save_exercise()
             BoxLayout:
                 orientation: 'horizontal'
                 Label:
