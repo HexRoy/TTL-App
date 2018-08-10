@@ -299,6 +299,11 @@ class ScreenManager(ScreenManager):
         self.current = "DisplayExercise"                     # Which screen it will change to
         file_name, exercise_name = instance.id.split(",")    # Separates the file name and exercise name from id
         self.display_ex_name.text = exercise_name            # Sets the label to the exercise name
+        instance.text = "Completed"
+        instance.color = [0, 0.502, 0, 1]
+        instance.background_color = [0, 0.502, 0, 1]
+
+
 
     def clear_exercise(self):
         self.display_ex_grid.clear_widgets()
@@ -323,11 +328,14 @@ class ScreenManager(ScreenManager):
             self.display_ex_grid.add_widget(weight_label)  # Adds the weight to the grid
 
             # Creates variables to store routine data
+            name_text = self.display_ex_name.text
             sets_text = set_number  # Stores the amount of sets
             reps_text = self.completed_reps.text  # Stores the amount of reps
             weight_text = self.completed_weight.text  # Stores the amount of weight
 
             # Appends all the exercise info to the list (order important)
+            update_workout_list.append({'name': name_text, 'sets': sets_text, 'reps': reps_text, 'weight': weight_text})
+            update_workout_list.append(name_text)
             update_workout_list.append(sets_text)  # Adds the number of sets to the list
             update_workout_list.append(reps_text)  # Adds the number of reps to the list
             update_workout_list.append(weight_text)  # Adds the amount of weight to the list
@@ -338,6 +346,7 @@ class ScreenManager(ScreenManager):
 
             # Calls the next step
             ScreenManager.reset_set_input(self)
+
 
     def reset_set_input(self):
         self.completed_reps.text = ""
