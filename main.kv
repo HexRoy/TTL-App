@@ -57,7 +57,12 @@
     display_name: display_workout_name  # The title for the workout (Display Routine)
     display_grid: display_routine_grid
     display_ex_name: display_exercise_name
-    display_ex_grid: display_exercise_grid
+
+    number_sets: set_number
+    display_ex_grid: exercise_grid
+    completed_reps: reps_input
+    completed_weight: weight_input
+
     dark_light: button
 
     #==================================================================================================================
@@ -265,7 +270,10 @@
                 id : display_routine_grid
                 cols: 2
                 rows: 0
-
+            Button:
+                text: "Done"
+                on_press:
+                    print("saving")
 
     #==================================================================================================================
     # Display Exercise Screen
@@ -293,13 +301,45 @@
                     text: "Done"                                    # Buttons text
                     on_press:
                         print('Saving')
-                        root.save_exercise()
+                        root.change_to_completed()
+            BoxLayout:
+                orientation: 'horizontal'
+                Label:
+                    text: "Previous:"
+                Label:
+                    text: "Set 1"
+                Label:
+                    text: "12 Reps"
+                Label:
+                    text: "145 Pounds"
+
+            GridLayout:
+                id: exercise_grid
+                cols: 3
 
             GridLayout:                                         # Grid layout containing all workout information
-                id : display_exercise_grid
                 cols: 3
-                rows: 0
+                Label:
+                    text: 'Set'
+                Label:
+                    text: "Number of reps"
+                Label:
+                    text: "Amount of weight"
+                Label:
+                    text: '1'
+                    id: set_number
+                TextInput:
+                    input_filter: 'int'
+                    id: reps_input
+                TextInput:
+                    input_filter: 'int'
+                    id: weight_input
 
+            Button:
+                id: finish_set
+                text: "Next Set"
+                on_press:
+                    root.add_to_ex_grid()
 
 
     #==================================================================================================================

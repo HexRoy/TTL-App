@@ -15,6 +15,7 @@ Builder.load_file('main.kv')
 routine_name_list = []
 workout_list = []
 
+update_workout_list = []
 
 class ScreenManager(ScreenManager):
 
@@ -298,41 +299,58 @@ class ScreenManager(ScreenManager):
         self.current = "DisplayExercise"                     # Which screen it will change to
         file_name, exercise_name = instance.id.split(",")    # Separates the file name and exercise name from id
         self.display_ex_name.text = exercise_name            # Sets the label to the exercise name
-        self.display_ex_grid.rows += 1                       # Adds the first row in the exercise grid
-        blank_title_label = Label(text='')                   # Blank label for formatting
-        weight_title_label = Label(text='Weight')            # Weight title
-        reps_title_label = Label(text='Reps')                # Reps title
-        self.display_ex_grid.add_widget(blank_title_label)   # Adds the blank label to the grid
-        self.display_ex_grid.add_widget(reps_title_label)    # Adds the reps label to the grid
-        self.display_ex_grid.add_widget(weight_title_label)  # Adds the weight title to the grid
-
-        with open(file_name) as csv_file:                       # Opens the csv file
-            csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
-            for row in csv_reader:                              # Loops through rows in the file
-                for i in range(len(row)-1):                     # Loops through each thing in the row
-                    if row[i] == exercise_name:                 # If the element is the exercise name
-                        total_sets = row[i+1]                   # The number of sets is the next element
-
-        set_number = 1                                          # Counter for displaying the specific # set on the label
-
-        for i in range(int(total_sets)):                        # Loops total_sets number of times
-            self.display_ex_grid.rows += 1                      # Adds one to the grid rows each time
-            sets_label = Label(text='Set ' + str(set_number))   # Creates a label for each set (Set 1:, Set 2:, ..ect)
-            reps_input = TextInput(input_filter='int')          # Creates text input for number of completed reps
-            weight_input = TextInput(input_filter='int')        # Creates text input for weight used
-            self.display_ex_grid.add_widget(sets_label)         # Adds the sets label to grid
-            self.display_ex_grid.add_widget(reps_input)         # Adds the reps text input to the grid
-            self.display_ex_grid.add_widget(weight_input)       # Adds the weight text input to the grid
-            set_number += 1                                     # Increments the set number
 
     def clear_exercise(self):
         self.display_ex_grid.clear_widgets()
-        self.display_ex_grid.rows = 0
+        self.number_sets.text = "1"
+
+    def add_to_ex_grid(self):
+
+        set_number = self.number_sets.text
+
+
+
+        # Sets all of the data to what the user inputted
+        reps_label = Label(text=self.completed_reps.text + ' Reps')  # Creates label with newest number of reps inputted
+        weight_label = Label(text=self.completed_weight.text + ' Pounds')  # Creates label with newest amount of weight inputted
+        set_label = Label(text='Set ' + set_number)
+        # Checks to make sure there is a name and numbers of sets as input
+        if self.completed_reps.text and self.completed_weight.text != "":
+
+            # Adds the input to the grid
+            self.display_ex_grid.add_widget(set_label)
+            self.display_ex_grid.add_widget(reps_label)  # Adds the reps to the grid
+            self.display_ex_grid.add_widget(weight_label)  # Adds the weight to the grid
+
+            # Creates variables to store routine data
+            sets_text = set_number  # Stores the amount of sets
+            reps_text = self.completed_reps.text  # Stores the amount of reps
+            weight_text = self.completed_weight.text  # Stores the amount of weight
+
+            # Appends all the exercise info to the list (order important)
+            update_workout_list.append(sets_text)  # Adds the number of sets to the list
+            update_workout_list.append(reps_text)  # Adds the number of reps to the list
+            update_workout_list.append(weight_text)  # Adds the amount of weight to the list
+            print(update_workout_list)
+
+
+            self.number_sets.text = str(int(self.number_sets.text)+1)
+
+            # Calls the next step
+            ScreenManager.reset_set_input(self)
+
+    def reset_set_input(self):
+        self.completed_reps.text = ""
+        self.completed_weight.text = ""
+
+    def change_to_completed(self):
+        pass
 
     def save_exercise(self):
 
 
-        print(self.display_ex_grid.TextInput)
+        pass
+
 
 
         # Todo: set the id of reps input and sets input to | file, extenetion = file_name.split('.')
@@ -340,9 +358,11 @@ class ScreenManager(ScreenManager):
 
         # Todo: implement get_set():?
 
+        # Todo: Display one input at a time, then click next set a the bottom.
+            # todo: Next_set() will save the data to the csv file and
         # for i in range(int(total_sets)):
 
-        pass
+
 
     # =================================================================================================================
     # Functions for Settings
