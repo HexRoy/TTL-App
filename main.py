@@ -19,8 +19,8 @@ workout_list = []
 update_workout_list = []
 final_workout_list = []
 
-class ScreenManager(ScreenManager):
 
+class ScreenManager(ScreenManager):
     # =================================================================================================================
     # Functions for Menu
     # =================================================================================================================
@@ -429,8 +429,8 @@ class ScreenManager(ScreenManager):
         print('update', self.update_workout_list)
         print('final', final_workout_list)
         print('final self', self.final_workout_list)
-        self.update_workout_list = final_workout_list[:]
-        update_workout_list = final_workout_list[:]
+        self.update_workout_list.clear()
+        update_workout_list= final_workout_list[:]
 
         print("---------------------")
         print('final', final_workout_list)

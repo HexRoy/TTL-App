@@ -72,12 +72,10 @@
         name: "Menu"                                            # The name of the screen
         GridLayout:                                             # Main grid layout (contains: logo, and buttons)
             rows: 1                                                 # Number of rows for main grid layout
-
-            Label:                                              # Label for logo
-                font_size: 150                                      # Font size for logo
-                center_x: root.width / 4                            # X position for logo (to center it in its column)
-                top: root.top/2                                     # Centers logo in Y-height/2
-                text: "T\nT\nL"                                     # The logos text
+            Image :
+                source: 'logo.png'
+                allow_stretch: True
+                keep_ratio: False
 
             BoxLayout:                                          # Box layout containing the buttons
                 orientation: "vertical"                             # Vertical layout (Buttons stacked on each other)
