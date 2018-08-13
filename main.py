@@ -8,6 +8,7 @@ import random
 from csv import DictWriter
 import csv
 import os
+import datetime
 
 
 Builder.load_file('main.kv')
@@ -15,7 +16,7 @@ Builder.load_file('main.kv')
 routine_name_list = []
 workout_list = []
 
-update_workout_list = [[], [], [], []]
+update_workout_list = []
 
 class ScreenManager(ScreenManager):
 
@@ -209,6 +210,12 @@ class ScreenManager(ScreenManager):
     # =================================================================================================================
     # What will happen when pressing a routine
     def open_routine(self, instance):
+
+        self.update_the_workout_list(instance.id + '.csv')
+
+        update_workout_list[0].append(instance.id)
+        update_workout_list[1].append(datetime.datetime.today().strftime('%m-%d-%Y'))
+
         # Changes screens to Display Routine
         self.transition.direction = 'left'                  # Changes the open direction to go left
         self.current = "DisplayRoutine"                     # Which screen it will change to
@@ -315,6 +322,8 @@ class ScreenManager(ScreenManager):
     # Adds the entered reps and weight to the grid layout
     def add_to_ex_grid(self):
 
+
+
         set_number = self.number_sets.text
 
         # Sets all of the data to what the user inputted
@@ -335,18 +344,46 @@ class ScreenManager(ScreenManager):
             reps_text = self.completed_reps.text  # Stores the amount of reps
             weight_text = self.completed_weight.text  # Stores the amount of weight
 
-            # Appends all the exercise info to the list (order important)
-            update_workout_list[0].append(name_text)
-            update_workout_list[1].append(sets_text)  # Adds the number of sets to the list
-            update_workout_list[2].append(reps_text)  # Adds the number of reps to the list
-            update_workout_list[3].append(weight_text)  # Adds the amount of weight to the list
-            print(update_workout_list)
+            newest_line_check = 0
+            file_name = self.display_name.text + '.csv'
+            newest_line = self.get_newest_line(file_name)
+
+            with open('routines/' + file_name) as csv_file:  # Opens the file to read
+                csv_reader = csv.reader(csv_file, delimiter=',')  # Starts the csv reader
+                for row in csv_reader:  # Loops through the rows in the file
+                    newest_line_check += 1  # Increments once for each new row it loops through
+                    if newest_line_check != newest_line:  # Checks to see if you are not on the newest like
+                        pass  # If your not, do nothing
+                    else:
+
+
+                        for element in range(len(row)):
+
+                            if row[element] == name_text:
+                                # Appends all the exercise info to the list (order important)
+                                update_workout_list[element].append(name_text)
+                                update_workout_list[element + 1].append(sets_text)  # Adds the number of sets to the list
+                                update_workout_list[element + 2].append(reps_text)  # Adds the number of reps to the list
+                                update_workout_list[element + 3].append(weight_text)  # Adds the amount of weight to the list
+                                print(update_workout_list)
 
             self.number_sets.text = str(int(self.number_sets.text)+1)
 
             # Calls the next step
             ScreenManager.reset_set_input(self)
 
+    # Creates the list of lists, and specifies the number of lists in the list
+    def update_the_workout_list(self, file_name):
+        file_name = file_name
+        row_number = 0
+        with open('routines/' + file_name) as csv_file:  # Opens the file to read
+            csv_reader = csv.reader(csv_file, delimiter=',')  # Starts the csv reader
+            for row in csv_reader:  # Loops through the rows in the file
+                if row_number == 0:
+                    for element in row:
+                        self.update_workout_list = update_workout_list.append([])
+                        print(update_workout_list)
+                row_number += 1
     # Resets the reps and weight input every time they are added to the grid
     def reset_set_input(self):
         self.completed_reps.text = ""
