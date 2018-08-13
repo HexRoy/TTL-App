@@ -10,13 +10,14 @@ import csv
 import os
 import datetime
 
-
+import ast
 Builder.load_file('main.kv')
 
 routine_name_list = []
 workout_list = []
 
 update_workout_list = []
+final_workout_list = []
 
 class ScreenManager(ScreenManager):
 
@@ -112,7 +113,7 @@ class ScreenManager(ScreenManager):
             workout_list.append(sets_text)                      # Adds the number of sets to the list
             workout_list.append(reps_text)                      # Adds the number of reps to the list
             workout_list.append(weight_text)                    # Adds the amount of weight to the list
-
+            print(workout_list)
             # Calls the next step
             ScreenManager.reset_fields(self)
 
@@ -213,8 +214,10 @@ class ScreenManager(ScreenManager):
 
         self.update_the_workout_list(instance.id + '.csv')
 
-        update_workout_list[0].append(instance.id)
-        update_workout_list[1].append(datetime.datetime.today().strftime('%m-%d-%Y'))
+        self.workout_name.text = instance.id
+
+        update_workout_list.insert(0, datetime.datetime.today().strftime('%m-%d-%Y'))
+        update_workout_list.insert(0, instance.id)
 
         # Changes screens to Display Routine
         self.transition.direction = 'left'                  # Changes the open direction to go left
@@ -251,7 +254,14 @@ class ScreenManager(ScreenManager):
 
                     # Loops over each element in the row
                     for element in newest_row:
+
                         if element_index == 2:                   # If your on the second element (first exercise name)
+
+
+                            if element[0] == '[':
+                                element = ast.literal_eval(element)  # To convert the 'string' in csv file to a list
+                                element = element[0]                 # To get the first element in the list
+
                             self.display_grid.rows += 1          # Add a row to the grid
                             id_name = file_name + ',' + element  # Creates id_name with filename and exercise name
 
@@ -275,6 +285,12 @@ class ScreenManager(ScreenManager):
 
                         # Every four elements, there is a exercise name
                         if exercise_number == 4:
+
+
+                            if element[0] == '[':
+                                element = ast.literal_eval(element)  # To convert the 'string' in csv file to a list
+                                element = element[0]  # To get the first element in the list
+
                             self.display_grid.rows += 1          # Increment the number of rows in grid
                             id_name = file_name + ',' + element  # Creates id_name with filename and exercise name
 
@@ -299,8 +315,12 @@ class ScreenManager(ScreenManager):
 
     # TODO
     def save_routine(self):
-        pass
+        file_name = ''.join(update_workout_list[0]) + '.csv'  # Creates the file name (as .csv file)
+        my_file = open("routines/" + file_name, 'a')  # Creates the file to store the routine
 
+        writer = csv.writer(my_file,  delimiter=',', lineterminator='\n')
+        writer.writerow(update_workout_list)  # Writes the routine in the next line
+        my_file.close()  # Closes file
     # =================================================================================================================
     # Functions for Display Exercise
     # =================================================================================================================
@@ -314,10 +334,6 @@ class ScreenManager(ScreenManager):
         instance.color = [0, 0.502, 0, 1]
         instance.background_color = [0, 0.502, 0, 1]
 
-    # Clears entered reps and weights and reset the current set to 1
-    def clear_exercise(self):
-        self.display_ex_grid.clear_widgets()
-        self.number_sets.text = "1"
 
     # Adds the entered reps and weight to the grid layout
     def add_to_ex_grid(self):
@@ -374,16 +390,23 @@ class ScreenManager(ScreenManager):
 
     # Creates the list of lists, and specifies the number of lists in the list
     def update_the_workout_list(self, file_name):
+        update_workout_list.clear()
         file_name = file_name
         row_number = 0
         with open('routines/' + file_name) as csv_file:  # Opens the file to read
             csv_reader = csv.reader(csv_file, delimiter=',')  # Starts the csv reader
             for row in csv_reader:  # Loops through the rows in the file
                 if row_number == 0:
-                    for element in row:
+                    for i in range(len(row)-2):
                         self.update_workout_list = update_workout_list.append([])
-                        print(update_workout_list)
                 row_number += 1
+        self.final_workout_list = update_workout_list[:]
+        print('update_the_workout_list \n ---------------')
+        print('update:self', self.update_workout_list)
+        print('update', self.update_workout_list)
+        print('final', final_workout_list)
+        print('final self', self.final_workout_list)
+
     # Resets the reps and weight input every time they are added to the grid
     def reset_set_input(self):
         self.completed_reps.text = ""
@@ -391,7 +414,28 @@ class ScreenManager(ScreenManager):
 
     # TODO: Change the red color to green, and also change text to completed (Already implemented in a cheaty way)
     def change_to_completed(self):
-        pass
+        final_workout_list = update_workout_list[:]
+        print("change_to_completed" + '\n --------------')
+        print('update', update_workout_list)
+        print('final', final_workout_list)
+
+        # Clears entered reps and weights and reset the current set to 1
+
+    def clear_exercise(self):
+        self.display_ex_grid.clear_widgets()
+        self.number_sets.text = "1"
+        print("clear_exercise" + '\n --------------')
+        print('update:self', self.update_workout_list)
+        print('update', self.update_workout_list)
+        print('final', final_workout_list)
+        print('final self', self.final_workout_list)
+        self.update_workout_list = final_workout_list[:]
+        update_workout_list = final_workout_list[:]
+
+        print("---------------------")
+        print('final', final_workout_list)
+        print('update', update_workout_list)
+        print('updateself', self.update_workout_list)
 
     # TODO: reset the update_workout_list when leaving that workout. Must save to save
     def reset_routine(self):

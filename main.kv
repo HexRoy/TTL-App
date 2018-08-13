@@ -40,7 +40,7 @@
         # TODO: save it to variable with comas between each value
         # TODO: search through csv file until 'exercise name' found, goto the newest line and add add info
 # TODO: change color from red to green color=[0.502, 0, 0, 1]
-# TODO: If you click back, and not save.. reset the update_workout_list
+
 
 
 <ScreenManager>:
@@ -126,6 +126,8 @@
 
                 Button:                                         # Delete Routine button
                     text: "Delete Routine"                          # Text for the button
+                    on_press:
+
 
             Label:                                              # Your Routines label
                 size_hint: 1, 0.2                                   # The size constraints
@@ -273,6 +275,7 @@
             Button:
                 text: "Done"
                 on_press:
+                    root.save_routine()
                     print("saving")
 
 
@@ -301,9 +304,10 @@
                 Button:                                         # Edit button
                     text: "Done"                                    # Buttons text
                     on_press:
-                        print('Saving')
+                        root.transition.direction = 'right'         # Direction of transition
+                        root.current = "DisplayRoutine"                   # Which page you are brought to
                         root.change_to_completed()
-                        root.save_exercise()
+
             BoxLayout:
                 orientation: 'horizontal'
                 Label:
