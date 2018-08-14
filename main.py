@@ -315,6 +315,8 @@ class ScreenManager(ScreenManager):
 
     # TODO
     def save_routine(self):
+
+
         file_name = ''.join(update_workout_list[0]) + '.csv'  # Creates the file name (as .csv file)
         my_file = open("routines/" + file_name, 'a')  # Creates the file to store the routine
 
@@ -441,6 +443,10 @@ class ScreenManager(ScreenManager):
     def reset_routine(self):
         pass
 
+    # TODO: caculate what percent of the workout each exercise is. num exercises completed/ total num exercises
+        # TODO: loop through the excel sheet find each ex name.
+    def calculate_progrssion(self):
+        pass
     # =================================================================================================================
     # Functions for Settings
     # =================================================================================================================

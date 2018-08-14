@@ -3,17 +3,18 @@
 # TODO: core data for storing data
 # TODO: MAYBE - menu: Add routine; Open Routine; Settings. Open routine would be able to look though the /routines/ file
 # TODO: add all buttons to bottom. make them static
+# TODO: Reformat csv file, make columns 'exercise-name - reps/set/weight' that way each will be unique
+
+# FIXME: When you click an existing routine, then go back and try to create a new routine. Name is filled in with exisiting
 
 # TODO: Routines
 #----------------
-# TODO: add scroll view to grid layout
 # TODO: implement delete routine, and possibly swipe to delete     https://github.com/kivy-garden/garden.swipetodelete
 
 
 # TODO: AddRoutine
 #------------------
 # TODO: add timer option
-# TODO: add scroll view to grid layout
 # TODO: Create database instead of CSV files
 # TODO: all buttons are same size
 
@@ -39,6 +40,7 @@
         # TODO: first get all of the input data from the text input.
         # TODO: save it to variable with comas between each value
         # TODO: search through csv file until 'exercise name' found, goto the newest line and add add info
+        # TODO: check to make sure there is input before saving
 # TODO: change color from red to green color=[0.502, 0, 0, 1]
 
 
@@ -143,14 +145,17 @@
                     font_size: 15                                   # Font size of label
                     text: "Last Used"                               # Labels text
 
-            ScrollView:                                         # Scroll view
-                                                                    # TODO
+            ScrollView:
+                size_hint: 1, 1
+                pos_hint:{'x': .0, 'y': .0}
 
                 GridLayout:                                     # Grid layout containing the list of routines
                     cols: 2                                         # Number of columns in the layout
+                    size_hint: None, None
+                    width: root.width
+                    height: root.height
                     id: routine_list                                # The ID of the grid layout
-                    row_force_default: True                         # When true, input the size manually
-                    row_default_height: 35                          # The height of the button and text
+
 
     #==================================================================================================================
     # Add Routine Screen
@@ -265,7 +270,12 @@
                     text: "Edit"                                    # Buttons text
                     on_press:
                         print('editing')
-
+            Label:
+                text: "Current Progress"
+                size_hint: 1, .1
+            ProgressBar:
+                id: routine_progress
+                size_hint: 1, .1
             GridLayout:                                         # Grid layout containing all workout information
                 id : display_routine_grid
                 cols: 2
