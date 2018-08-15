@@ -8,6 +8,7 @@
     # TODO: option 2 -  Use another dictionary to represent the value of the key.
 
 # FIXME: When you click an existing routine, then go back and try to create a new routine. Name is filled in with exisiting
+# FIXME: if nothing entered in routine, dont save. if one exercise entered, save but add exercise name to empty lists
 
 # TODO: Routines
 #----------------
@@ -29,20 +30,13 @@
 
 # TODO: DisplayRoutine
 #----------------------
-# TODO: add progress bar based on the completion of exercises
-# TODO: implement a way to use the routine and add data.
+# TODO: implement progress bar based on the completion of exercises
 # TODO: Add the quotes if you don't reach the target reps
 # TODO: once clicked on routine change the last used to the current date
     # TODO: if any status's are completed + you save the workout -> change the date
 
 # TODO: Display Exercise
 #-----------------------
-# TODO: Implement Done
-    # TODO: save_exercise
-        # TODO: first get all of the input data from the text input.
-        # TODO: save it to variable with comas between each value
-        # TODO: search through csv file until 'exercise name' found, goto the newest line and add add info
-        # TODO: check to make sure there is input before saving
 # TODO: change color from red to green color=[0.502, 0, 0, 1]
 
 
@@ -286,7 +280,10 @@
                 text: "Done"
                 on_press:
                     root.save_routine()
+                    root.reset_display()
                     print("saving")
+                    root.transition.direction = 'right'         # Direction of transition
+                    root.current = "Routines"                   # Which page you are brought to
 
 
     #==================================================================================================================
@@ -317,7 +314,7 @@
                         root.transition.direction = 'right'         # Direction of transition
                         root.current = "DisplayRoutine"                   # Which page you are brought to
                         root.change_to_completed()
-
+                        root.clear_exercise()
             BoxLayout:
                 orientation: 'horizontal'
                 Label:
