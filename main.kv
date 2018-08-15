@@ -71,7 +71,7 @@
         GridLayout:                                             # Main grid layout (contains: logo, and buttons)
             rows: 1                                                 # Number of rows for main grid layout
             Image :
-                source: 'logo.png'
+                source: 'images/icons/logo.png'
                 allow_stretch: True
                 keep_ratio: False
 
@@ -80,7 +80,7 @@
 
                 Button:                                         # Routines button
                     text: "Routines"                                # Buttons text
-                    background_normal: 'button.png'
+                    background_normal: 'images/icons/button.png'
                     on_press:
                         root.display_all_routines()
                         root.transition.direction = 'left'          # The direction of the transition
@@ -88,7 +88,7 @@
 
                 Button:                                         # Settings button
                     text: "Settings"                                # Buttons text
-                    background_normal: 'settings1.png'
+                    background_normal: 'images/icons/settings.png'
                     on_press:
                         root.transition.direction = 'left'          # The direction of the transition
                         root.current = "Setting"                    # Which screen you are brought to
