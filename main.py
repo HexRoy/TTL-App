@@ -227,7 +227,7 @@ class ScreenManager(ScreenManager):
 
         self.display_name.text = str(instance.id)           # Changes the label to the current routine
 
-        file_name = 'routines/' + instance.id + '.csv'      # Creates the full file name with extension
+        file_name = instance.id + '.csv'      # Creates the full file name with extension
 
         self.display_grid.rows += 1  # Adds a row in the grid for the exercise
 
@@ -242,7 +242,7 @@ class ScreenManager(ScreenManager):
         newest_line = self.get_newest_line(instance.id + '.csv')           # Gets the newest line in the file
 
         # Loops to obtain data from the file
-        with open(file_name) as csv_file:                       # Opens the file to read
+        with open('routines/' + file_name) as csv_file:                       # Opens the file to read
             csv_reader = csv.reader(csv_file, delimiter=',')    # Starts the csv reader
             for newest_row in csv_reader:                       # Loops through the rows in the file
                 newest_line_check += 1                          # Increments once for each new row it loops through
@@ -302,6 +302,7 @@ class ScreenManager(ScreenManager):
                                                background_color=[0.502, 0, 0, 1], on_press=self.open_exercise,
                                                id=id_name)
 
+
                             self.display_grid.add_widget(my_button)  # Adds the button to the grid
                             self.display_grid.add_widget(my_label)  # Adds the label to the grid
                             exercise_number = 1     # Sets to 1 because it only increments 3 times, and needs to reach 4
@@ -312,6 +313,8 @@ class ScreenManager(ScreenManager):
     def reset_display(self):
         self.display_grid.clear_widgets()  # Clears out the grid layout
         self.display_grid.rows = 0         # Resets the grid
+        self.progress_bar.value = 0
+        self.my_progress.text = 'Current Progress: None, Beta'
 
     # TODO
     def save_routine(self):
@@ -327,6 +330,12 @@ class ScreenManager(ScreenManager):
             writer.writerow(update_workout_list)  # Writes the routine in the next line
             my_file.close()  # Closes file
 
+    def update_progress_bar(self):
+        file_name = self.display_name.text + '.csv'
+        self.progress_bar.value += 100/self.num_exercises(file_name)
+        self.my_progress.text = 'Current Progress: ' + str(self.progress_bar.value) + '%'
+
+
     # =================================================================================================================
     # Functions for Display Exercise
     # =================================================================================================================
@@ -336,9 +345,57 @@ class ScreenManager(ScreenManager):
         self.current = "DisplayExercise"                     # Which screen it will change to
         file_name, exercise_name = instance.id.split(",")    # Separates the file name and exercise name from id
         self.display_ex_name.text = exercise_name            # Sets the label to the exercise name
+
+
+        #TODO Change color and name afterclicking done not opening exercise
         instance.text = "Completed"
         instance.color = [0, 0.502, 0, 1]
         instance.background_color = [0, 0.502, 0, 1]
+
+
+
+        newest_line_check = 0  # To check to make sure your on the newest line of data
+
+        newest_line = self.get_newest_line(file_name)  # Gets the newest line in the file
+
+
+        # Loops to obtain data from the file
+        with open('routines/' + file_name) as csv_file:  # Opens the file to read
+            csv_reader = csv.reader(csv_file, delimiter=',')  # Starts the csv reader
+            for row in csv_reader:  # Loops through the rows in the file
+                newest_line_check += 1  # Increments once for each new row it loops through
+
+                if newest_line_check != newest_line:  # Checks to see if you are not on the newest like
+                    pass
+                else:  # If you are, add all the data
+
+
+                    text_element = ""
+
+                    # Loops over each element in the row
+                    for element in range(len(row)):
+                        if row[element][0] == '[':
+                            text_element = ast.literal_eval(row[element])  # To convert the 'string' in csv file to a list
+                            text_element = text_element[0]  # To get the first element in the list
+
+                        if row[element] == exercise_name or text_element == exercise_name:
+
+                            if row[element+2][0] == '[':
+                                reps_element = ast.literal_eval(row[element+2])  # To convert the 'string' in csv file to a list
+                                reps_element = reps_element[0]  # To get the first element in the list
+                                self.last_reps.text = reps_element
+                            else:
+                                self.last_reps.text = row[element+2] + " Reps"
+
+                            if row[element + 3][0] == '[':
+                                weight_element = ast.literal_eval(row[element + 3])  # To convert the 'string' in csv file to a list
+                                weight_element = weight_element[0]  # To get the first element in the list
+                                self.last_weight.text = weight_element
+                            else:
+                                self.last_weight.text = row[element+3] + " Pounds"
+
+                    self.last_set.text = "Set 1"
+
 
     # Adds the entered reps and weight to the grid layout
     def add_to_ex_grid(self):
@@ -418,9 +475,21 @@ class ScreenManager(ScreenManager):
     # TODO: Change the red color to green, and also change text to completed (Already implemented in a cheaty way)
     def change_to_completed(self):
         final_workout_list = update_workout_list[:]
-        print("change_to_completed" + '\n --------------')
-        print('update', update_workout_list)
-        print('final', final_workout_list)
+        exercise_name = self.display_ex_name.text
+        file_name = 'routines/' + self.display_name.text + '.csv'
+
+
+
+        id = file_name + ',' + exercise_name
+
+        #print(id)
+
+        #self.id.color = [0.444, 0.502, 0, 1]
+
+        #instance.background_color = [0, 0.502, 0, 1]
+        # print("change_to_completed" + '\n --------------')
+        # print('update', update_workout_list)
+        # print('final', final_workout_list)
 
         # Clears entered reps and weights and reset the current set to 1
 
@@ -430,11 +499,11 @@ class ScreenManager(ScreenManager):
         self.number_sets.text = "1"
         update_workout_list = final_workout_list[:]
 
-        print("clear_exercise" + '\n --------------')
-        print('update:self', self.update_workout_list)
-        print('update', self.update_workout_list)
-        print('final', final_workout_list)
-        print('final self', self.final_workout_list)
+        # print("clear_exercise" + '\n --------------')
+        # print('update:self', self.update_workout_list)
+        # print('update', self.update_workout_list)
+        # print('final', final_workout_list)
+        # print('final self', self.final_workout_list)
 
     # TODO: reset the update_workout_list when leaving that workout. Must save to save
     def reset_routine(self):
@@ -482,6 +551,18 @@ class ScreenManager(ScreenManager):
             for row in csv_reader:                              # Loops for each row in the file
                 newest_line += 1                                # Increments to keep track of the newest line
         return newest_line
+
+    def num_exercises(self, file_name):
+
+        # Loops to obtain data from the file
+        with open('routines/' + file_name) as csv_file:  # Opens the file to read
+            csv_reader = csv.reader(csv_file, delimiter=',')  # Starts the csv reader
+            for row in csv_reader:  # Loops through the rows in the file
+                num_exercises = ((len(row) - 2) / 4)
+                break
+            return num_exercises
+
+
 
 # =================================================================================================================
 # Different Screen classes

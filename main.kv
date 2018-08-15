@@ -20,6 +20,7 @@
 # TODO: add timer option
 # TODO: Create database instead of CSV files
 # TODO: all buttons are same size
+# TODO: input filter on the add routine page so routine name cant be the same as the num set/reps (Alphanumeric filter)
 
 
 # TODO: Settings
@@ -30,7 +31,6 @@
 
 # TODO: DisplayRoutine
 #----------------------
-# TODO: implement progress bar based on the completion of exercises
 # TODO: Add the quotes if you don't reach the target reps
 # TODO: once clicked on routine change the last used to the current date
     # TODO: if any status's are completed + you save the workout -> change the date
@@ -38,6 +38,8 @@
 # TODO: Display Exercise
 #-----------------------
 # TODO: change color from red to green color=[0.502, 0, 0, 1]
+# TODO: Update previous every time you click next set
+    # TODO: copy code from open routine should be similar
 
 
 
@@ -60,6 +62,14 @@
     display_ex_grid: exercise_grid
     completed_reps: reps_input
     completed_weight: weight_input
+
+    progress_bar: routine_progress
+    my_progress: current_progress
+
+    last_set: previous_set
+    last_reps: previous_reps
+    last_weight: previous_weight
+
 
     dark_light: button
 
@@ -196,6 +206,7 @@
 
                 TextInput:                                      # Text input for the routine name
                     id: routine_name                                # ID of the text input
+                    input_filter:
 
             GridLayout:                                         # Grid layout containing the exercises you input
                 id: workout_grid                                    # ID of the grid
@@ -267,11 +278,16 @@
                     on_press:
                         print('editing')
             Label:
-                text: "Current Progress"
+                text: "Current Progress: None... Beta"
                 size_hint: 1, .1
+                id: current_progress
+
             ProgressBar:
                 id: routine_progress
                 size_hint: 1, .1
+                value: 0
+
+
             GridLayout:                                         # Grid layout containing all workout information
                 id : display_routine_grid
                 cols: 2
@@ -315,16 +331,21 @@
                         root.current = "DisplayRoutine"                   # Which page you are brought to
                         root.change_to_completed()
                         root.clear_exercise()
+                        root.update_progress_bar()
+
             BoxLayout:
                 orientation: 'horizontal'
                 Label:
                     text: "Previous:"
                 Label:
-                    text: "Set 1"
+                    text: "Error finding set number"
+                    id: previous_set
                 Label:
-                    text: "12 Reps"
+                    text: "Error finding previous reps"
+                    id: previous_reps
                 Label:
-                    text: "145 Pounds"
+                    text: "Error finding previous weight"
+                    id: previous_weight
 
             GridLayout:
                 id: exercise_grid
