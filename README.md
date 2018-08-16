@@ -11,7 +11,6 @@
 * python -m pip install kivy.deps.gstreamer
 * pip install -r requirements.txt
  
- #-------------------------------------------------------------------------
  
  ## Menu Screen
  ### Everything working; Routines button and the Settings button
