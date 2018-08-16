@@ -5,15 +5,15 @@
 #### Python Version
 * 3.6.5
 
-# To run this on your machine use:
- * python -m pip install --upgrade pip wheel setuptools
- * python -m pip install docutils pygments pypiwin32 kivy.deps.sdl2 kivy.deps.glew
- * python -m pip install kivy.deps.gstreamer
- * pip install -r requirements.txt
+# To run this on your windows machine use:
+* python -m pip install --upgrade pip wheel setuptools
+* python -m pip install docutils pygments pypiwin32 kivy.deps.sdl2 kivy.deps.glew
+* python -m pip install kivy.deps.gstreamer
+* pip install -r requirements.txt
  
  ## Menu
  ### Todo:
-	* Create nicer images for the buttons and background
+	Create nicer images for the buttons and background
  ### Everything working; Routines button and the Settings button
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/1%20Menu.png)
  
