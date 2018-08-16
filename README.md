@@ -12,19 +12,54 @@
  * pip install -r requirements.txt
  
  ## Menu
+ ### Todo:
+	* Create nicer images for the buttons and background
+ ### Everything working; Routines button and the Settings button
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/1%20Menu.png)
  
  ## Your Routines
+ ### Todo:
+	* Fix the sizing of each routine in the scroll view (3 or less items looks bad, too streched)
+	* Create a background
+	* Add button backgrounds
+	* Implement the delete routine button
+ ### Scrollable interface that displays each routine and the last time it was used/updated
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/2%20Your%20Routines.png)
  
  ## Add Routine
+ ### Todo: 
+	* Create background
+	* filter the name to only allow letters?
+	* Button backgrounds
+ ### Everything working, able to create a routine and save it to a csv file 
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/3%20Add%20Routine.png)
  
  ## Display Routine
+ ### Todo:
+	* fix the spacing between the prgress bar and the exercises
+	* implement the edit button
+	* Correctly implement the color changing 
+	* Create background
+	* Create button backgrounds
+ ### For looking at your routine and selecting which exercise you want to complete next
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/4%20Display%20Routine.png)
  
  ## Display Exercise
+ ### Todo:
+	* Create background
+	* Create button backgrounds
+	* Fix spacing and pretty it upgrade
+ ### Displays your previous weight/reps from the last time you used this routine.
+ ### Can also complete the exercise and enter data
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/5%20Display%20Exercise.png)
  
  ## Settings
+ ### Todo:
+	* Create background
+	* Create button backgrounds
+	* implement notifications
+	* implement auto increase weight
+	* implement quotes
+	* implement color scheme
+### All buttons are clickable but non functioning
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/6%20Settings.png)
