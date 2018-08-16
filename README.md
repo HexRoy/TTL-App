@@ -13,8 +13,8 @@
  
  ## Menu
  ### Todo:
-	Create nicer images for the buttons and background
- ### Everything working; Routines button and the Settings button
+* Create nicer images for the buttons and background
+  #### Everything working; Routines button and the Settings button
  ![alt text](https://github.com/HexRoy/TTL-App/blob/master/Images/ui/1%20Menu.png)
  
  ## Your Routines
