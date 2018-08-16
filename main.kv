@@ -1,11 +1,8 @@
 #:kivy 1.10.1
 
-# TODO: core data for storing data
-# TODO: MAYBE - menu: Add routine; Open Routine; Settings. Open routine would be able to look though the /routines/ file
-# TODO: add all buttons to bottom. make them static
-# TODO: Reformat csv file, make columns 'exercise-name - reps/set/weight' that way each will be unique
-    # TODO: option 1 -  Use a list (array) to represent the value of the key.
-    # TODO: option 2 -  Use another dictionary to represent the value of the key.
+# TODO: core data for storing data (database)
+# TODO: MAYBE - add all buttons to bottom. make them static
+
 
 # FIXME: When you click an existing routine, then go back and try to create a new routine. Name is filled in with exisiting
 # FIXME: if nothing entered in routine, dont save. if one exercise entered, save but add exercise name to empty lists
@@ -13,7 +10,7 @@
 # TODO: Routines
 #----------------
 # TODO: implement delete routine, and possibly swipe to delete     https://github.com/kivy-garden/garden.swipetodelete
-
+# TODO: Fix look of scroll view with only one widget
 
 # TODO: AddRoutine
 #------------------
@@ -254,8 +251,8 @@
         name: "DisplayRoutine"                                  # Name of screen
         BoxLayout:                                              # Box layout containing everything in Display routines
             orientation: 'vertical'                                 # Vertical layout (stacked)
-
             BoxLayout:                                          # Box layout containing top buttons
+                size_hint: 1, .1
                 orientation: 'horizontal'                           # Horizontal layout (side by side)
 
                 Button:                                         # Routines button
@@ -273,15 +270,18 @@
                     text: "Edit"                                    # Buttons text
                     on_press:
                         print('editing')
-            Label:
-                text: "Current Progress: None... Beta"
-                size_hint: 1, .1
-                id: current_progress
 
-            ProgressBar:
-                id: routine_progress
-                size_hint: 1, .1
-                value: 0
+            BoxLayout:
+                size_hint: 1, .2
+                orientation: 'horizontal'
+                Label:
+                    text: "Current Progress: 0% ... Beta"
+                    id: current_progress
+                    size_hint: .4 , 1
+
+                ProgressBar:
+                    id: routine_progress
+                    value: 0
 
 
             GridLayout:                                         # Grid layout containing all workout information
@@ -290,6 +290,7 @@
                 rows: 0
             Button:
                 text: "Done"
+                size_hint: 1, .1
                 on_press:
                     root.save_routine()
                     root.reset_display()
