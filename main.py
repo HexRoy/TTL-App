@@ -383,14 +383,14 @@ class ScreenManager(ScreenManager):
                             if row[element+2][0] == '[':
                                 reps_element = ast.literal_eval(row[element+2])  # To convert the 'string' in csv file to a list
                                 reps_element = reps_element[0]  # To get the first element in the list
-                                self.last_reps.text = reps_element
+                                self.last_reps.text = reps_element + " Reps"
                             else:
                                 self.last_reps.text = row[element+2] + " Reps"
 
                             if row[element + 3][0] == '[':
                                 weight_element = ast.literal_eval(row[element + 3])  # To convert the 'string' in csv file to a list
                                 weight_element = weight_element[0]  # To get the first element in the list
-                                self.last_weight.text = weight_element
+                                self.last_weight.text = weight_element + " Pounds"
                             else:
                                 self.last_weight.text = row[element+3] + " Pounds"
 
@@ -453,6 +453,9 @@ class ScreenManager(ScreenManager):
             # Calls the next step
             ScreenManager.reset_set_input(self)
 
+            # Changes previous set
+            ScreenManager.display_next_set(self)
+
     # Creates the list of lists, and specifies the number of lists in the list
     def update_the_workout_list(self, file_name):
         update_workout_list.clear()
@@ -504,6 +507,65 @@ class ScreenManager(ScreenManager):
         # print('update', self.update_workout_list)
         # print('final', final_workout_list)
         # print('final self', self.final_workout_list)
+
+    def display_next_set(self):
+        newest_line_check = 0  # To check to make sure your on the newest line of data
+
+        file_name = self.display_name.text + '.csv'
+        exercise_name = self.display_ex_name.text
+
+        newest_line = self.get_newest_line(file_name)  # Gets the newest line in the file
+
+        # Loops to obtain data from the file
+        with open('routines/' + file_name) as csv_file:  # Opens the file to read
+            csv_reader = csv.reader(csv_file, delimiter=',')  # Starts the csv reader
+            for row in csv_reader:  # Loops through the rows in the file
+                newest_line_check += 1  # Increments once for each new row it loops through
+
+                if newest_line_check != newest_line:  # Checks to see if you are not on the newest like
+                    pass
+                else:  # If you are, add all the data
+
+                    set, current_set = self.last_set.text.split(" ")
+                    current_set = int(current_set)
+
+                    text_element = ""
+
+                    # Loops over each element in the row
+                    for element in range(len(row)):
+                        if row[element][0] == '[':
+                            text_element = ast.literal_eval(
+                                row[element])  # To convert the 'string' in csv file to a list
+                            text_element = text_element[0]  # To get the first element in the list
+
+                        if row[element] == exercise_name or text_element == exercise_name:
+
+                            if row[element + 2][0] == '[':
+                                reps_element = ast.literal_eval(row[element + 2])  # To convert the 'string' in csv file to a list
+
+                                try:
+                                    if reps_element[current_set]:
+                                        reps_element = reps_element[current_set]  # To get the next element in the list
+                                        self.last_reps.text = reps_element + " Reps"
+                                except IndexError:
+                                    self.last_reps.text = "No data for set " + str(current_set + 1)
+
+                            else:
+                                self.last_reps.text = row[element + 2] + " Reps"
+
+                            if row[element + 3][0] == '[':
+                                weight_element = ast.literal_eval(row[element + 3])  # To convert the 'string' in csv file to a list
+
+                                try:
+                                    if weight_element[current_set]:
+                                        weight_element = weight_element[current_set]  # To get the next element in the list
+                                        self.last_weight.text = weight_element + " Pounds"
+                                except IndexError:
+                                    self.last_weight.text = "No data for set " + str(current_set + 1)
+                            else:
+                                self.last_weight.text = row[element + 3] + " Pounds"
+
+                    self.last_set.text = "Set " + str(current_set + 1)
 
     # TODO: reset the update_workout_list when leaving that workout. Must save to save
     def reset_routine(self):
