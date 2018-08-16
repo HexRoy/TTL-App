@@ -1,5 +1,5 @@
 # Time To Lift - TTL-App :muscle:
-## Geoffroy Penny
+## 	- Geoffroy Penny
 ### App to keep track of your workouts, and progresion over time
 
 #### Python Version
