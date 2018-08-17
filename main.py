@@ -216,8 +216,6 @@ class ScreenManager(ScreenManager):
 
         self.update_the_workout_list(instance.id + '.csv')
 
-        self.workout_name.text = instance.id
-
         update_workout_list.insert(0, datetime.datetime.today().strftime('%m-%d-%Y'))
         update_workout_list.insert(0, instance.id)
 
@@ -318,12 +316,14 @@ class ScreenManager(ScreenManager):
 
     # TODO
     def save_routine(self):
+        print('uwl 0', update_workout_list[0])
+        print('uwl 1', update_workout_list[1])
+        print('uwl 2', update_workout_list[2])
 
         if update_workout_list[2] != '[]':
-            print(update_workout_list[2])
-            print("the first exercise is not null")
+
+
             file_name = ''.join(update_workout_list[0]) + '.csv'  # Creates the file name (as .csv file)
-            print(file_name)
             my_file = open("routines/" + file_name, 'a')  # Creates the file to store the routine
 
             writer = csv.writer(my_file,  delimiter=',', lineterminator='\n')
